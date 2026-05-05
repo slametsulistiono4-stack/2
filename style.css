@@ -35,11 +35,11 @@ html{
     display: flex;
     flex-direction: column;
     height: calc(80vh - 100px);
-    overflow-y: hidden;
+    overflow-y: auto;
     padding: 20px;
     gap: 20px;
     padding-bottom: 100px;
-    height: calc(100vh - 140px);
+    height: calc(100vh - 65px);
 }
 
 .item {
@@ -291,6 +291,7 @@ html{
 
     .items{
         overflow-y: auto;
+        height: calc(100vh - 64px);
     }
 }
 
@@ -380,4 +381,14 @@ html{
     background: blue;
     color: rgb(255, 255, 255);
     font-size: 17.5px;
+}
+
+/* Window lebih besar */
+.item:nth-child(2) .item-image {
+    width: 80%;
+}
+
+/* Radio lebih besar */
+.item:nth-child(3) .item-image {
+    width: 80%;
 }
