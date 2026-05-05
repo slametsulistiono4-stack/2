@@ -278,14 +278,14 @@ html{
     }
 
     .data-result {
-        left: 83%;
+        left: 80%;
         font-size: 25px;
         top: 28%;
         font-weight: 900;
     }
 
     .navbar{
-        padding: 6px;
+        padding: 2px;
     }
 }
 
