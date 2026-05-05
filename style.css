@@ -21,7 +21,7 @@ html{
 }
 .navbar{
     background-color:blue;
-    padding: 10px;
+    padding: 6px;
     text-align: center;
     border-bottom: 1px solid black;
 }
@@ -255,7 +255,7 @@ html{
     position: absolute;  /* supaya bisa pakai left */
     top: 28%;
     transform: translateY(-100% -50%); /* center vertical */
-    left: 83%; /* 🔥 bisa kamu ubah bebas */
+    left: 81%; /* 🔥 bisa kamu ubah bebas */
     
 }
 
@@ -278,14 +278,15 @@ html{
     }
 
     .data-result {
-        left: 80%;
+        left: 70%;
         font-size: 25px;
         top: 28%;
         font-weight: 900;
+        font-weight: bold;
     }
 
     .navbar{
-        padding: 2px;
+        padding: 6px;
     }
 }
 
