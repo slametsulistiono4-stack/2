@@ -273,19 +273,6 @@ html{
     .data-result {
         left: 80%;
         font-size: 26px;
-        top: 50%;
-    }
-}
-
-@media (min-width: 768px) {
-
-    .data-item h1 {
-        font-size: 20px;
-    }
-
-    .data-result {
-        left: 88%;
-        font-size: 26px;
-        top: 50%;    
+        top: 100%;
     }
 }
