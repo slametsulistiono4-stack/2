@@ -288,6 +288,10 @@ html{
     .navbar{
         padding: 6px;
     }
+
+    .items{
+        overflow-y: hidden;
+    }
 }
 
 .items::-webkit-scrollbar {
