@@ -21,7 +21,7 @@ html{
 }
 .navbar{
     background-color:blue;
-    padding: 6px;
+    padding: 10px;
     text-align: center;
     border-bottom: 1px solid black;
 }
@@ -282,6 +282,10 @@ html{
         font-size: 25px;
         top: 28%;
         font-weight: 900;
+    }
+
+    .navbar{
+        padding: 6px;
     }
 }
 
