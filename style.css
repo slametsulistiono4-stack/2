@@ -266,13 +266,14 @@ html{
 @media (max-width: 480px) {
 
     .data-item h1 {
-        font-size: 13px;
+        font-size: 20px;
         left: 8px;
     }
 
     .data-result {
         left: 80%;
-        font-size: 16px;
+        font-size: 26px;
+        top: 50%;
     }
 }
 
@@ -285,5 +286,6 @@ html{
     .data-result {
         left: 88%;
         font-size: 26px;
+        top: 50%;    
     }
 }
