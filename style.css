@@ -413,12 +413,12 @@ html{
 
     .arrow-image,
     .arrow-image-3 {
-        transform: translateX(10px); /* geser kanan */
+        transform: translateX(20px); /* geser kanan */
     }
 
     .arrow-image-1,
     .arrow-image-2 {
-        transform: translateX(-10px); /* geser kiri */
+        transform: translateX(-20px); /* geser kiri */
     }
 
 }
