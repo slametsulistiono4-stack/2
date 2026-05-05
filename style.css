@@ -21,13 +21,13 @@ html{
 }
 .navbar{
     background-color:blue;
-    padding: 16px;
+    padding: 10px;
     text-align: center;
     border-bottom: 1px solid black;
 }
 .navbar h1{
     color: white;
-    font-weight: 900;
+    font-weight: 800;
 }
 
 .items
@@ -276,8 +276,9 @@ html{
     }
 
     .data-result {
-        left: 80%;
-        font-size: 26px;
+        left: 83%;
+        font-size: 25px;
         top: 28%;
+        font-weight: 900;
     }
 }
