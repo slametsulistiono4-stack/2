@@ -392,3 +392,33 @@ html{
 .item:nth-child(3) .item-image {
     width: 80%;
 }
+
+/* semua panah */
+.arrow-image,
+.arrow-image-1,
+.arrow-image-2,
+.arrow-image-3 {
+    transition: opacity 0.25s ease;
+}
+
+/* saat ditekan → pudar */
+.arrow-image:active,
+.arrow-image-1:active,
+.arrow-image-2:active,
+.arrow-image-3:active {
+    opacity: 0.35;
+}
+
+@media (max-width: 480px) {
+
+    .arrow-image,
+    .arrow-image-3 {
+        transform: translateX(10px); /* geser kanan */
+    }
+
+    .arrow-image-1,
+    .arrow-image-2 {
+        transform: translateX(-10px); /* geser kiri */
+    }
+
+}
