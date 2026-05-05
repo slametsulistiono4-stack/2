@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="layouts">
+    <section class="navbar">
+        <h1>SMART CAR</h1>
+    </section>
+    <section class="page-title">
+        <h3>LAMP CONTROL</h3>
+    </section>
+    <SECtiosn class="leds">
+        <div class="led">
+            <img src="asset/led-off.png" class="led-image" id="ledRightImage">
+            <p class="lamp-location">LAMP RIGHT</p>
+            <button class="led-submit" id="ledKanan" onclick="setLampRight()">TURN ON</button>
+        </div>
+        <div class="led">
+            <img src="asset/led-off.png" class="led-image" id="ledLeftImage">
+            <p class="lamp-location">LAMP LEFT</p>
+            <button class="led-submit" onclick="setLampLeft()" id="ledKiri">TURN ON</button>
+        </div>
+    </SECtion>
+    <section class="bottombar">
+        <ul>
+            <li><a href="index.html"><i class="fa-solid fa-home"></i></a></li>
+            <li><a href="status.html"><i class="fa-solid fa-gears"></i></a></li>
+            <li><a href="setting.html"><i class="fa-solid fa-screwdriver-wrench"></i></a></li>
+            <li><a href="akun.html"><i class="fa-solid fa-user "></i></a></li>
+        </ul>
+    </section>
+</div>
+    <script src="main.js"></script>
+    
+</body>
+</html>

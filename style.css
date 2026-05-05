@@ -1,0 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
+
+*, 
+
+html{
+    margin: auto;
+    padding: 0px;
+    box-sizing: border-box;
+    cursor: url("asset/cursor.png"), auto;
+    font-family: 'Titillium Web', sans-serif;
+}
+.layouts {
+ max-width: 470px;
+ height: 100vh;
+ border: 1px solid black;
+ margin: 0 auto;
+ position: relative;
+ background-color: rgba(0, 0, 255, 0.396);
+}
+.navbar{
+    background-color:blue;
+    padding: 16px;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+.navbar h1{
+    color: white;
+    font-weight: 900;
+}
+
+.items
+{
+    display: flex;
+    flex-direction: column;
+    height: calc(80vh - 100px);
+    overflow-y: auto;
+    padding: 16px;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
+    background-color: white;
+    box-shadow: 0px 0px 4px 1px black;
+} 
+
+.item-image{
+    width: 50%;
+}
+
+.item-submit,
+.led-submit {
+    background-color: #5770ff;
+    padding: 4px 8px;
+    width: 100%;
+    color: white;
+    font-weight:bolder;
+    font-size: 18px;
+    border: none;
+    font-display: auto;
+}
+
+.bottombar{
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(0, 0, 255, 0.549);
+    color: black;
+    left: 0;
+    width: 100%;
+}
+.bottombar ul{
+    display: flex;
+    width: 100%;
+    list-style-type: none;
+    padding: 8px;
+}
+.bottombar ul li{
+    flex: 1;
+    text-align: center;
+}
+.bottombar ul li a{
+    color: white;
+    text-decoration: none;
+    font-size: x-large;
+    display: block;
+}
+
+.bottombar ul li a:hover{
+    scale: 110%;
+    transition: all 3s ease-in-out;
+}
+
+.leds {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.led{
+   display: flex;
+   flex-direction: column;  
+   align-items: center;
+   padding: 10px; 
+   background-color:rgba(114, 114, 114, 0.366);
+   box-shadow: 0px 0px 4px 2px black;
+   transition: background-color 0.4s ease;
+}
+.led-image{
+    width: 200px;
+    object-fit: cover;
+    transition: background-color 0.8s ease;
+}
+
+.page-title{
+    padding: 16px;
+}
+
+
+.page-title h3 {
+    text-align: center;
+    font-weight: 900;
+    font-size: x-large;
+    box-shadow: 0px 0px 4px 1px black;
+    background-color: blue;
+    color: rgba(254, 254, 255, 0.885);
+}
+
+.lamp-location {
+    font-weight: 700;
+    font-size: x-large;
+
+}
+
+.CARS {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 200px);
+    position: relative; /* penting */
+}
+
+/* semua panah */
+.arrow-image,
+.arrow-image-1,
+.arrow-image-2,
+.arrow-image-3 {
+    position: absolute;
+    width: 40px;
+}
+.CAR {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+} 
+.car-image {
+    width: 300px;
+    display: block;
+}
+.arrow-image {
+    top: 35.5%;
+    right: 15%;
+}
+
+/* KIRI ATAS */
+.arrow-image-1 {
+    top: 35%;
+    left: 14.5%;
+}
+
+/* KIRI BAWAH */
+.arrow-image-2 {
+    top: 63%;
+    left: 14.5%;
+}
+
+/* KANAN BAWAH */
+.arrow-image-3 {
+    top: 63%;
+    right: 14.5%;
+}
+
+
+/* panah atas */
+.arrow-image:nth-of-type(1),
+.arrow-image-1:nth-of-type(3), 
+.arrow-image-2:nth-of-type(5),
+.arrow-image-3:nth-of-type(7) {
+    transform: translateY(-30px);
+}
+
+/* panah bawah */
+.arrow-image:nth-of-type(2),
+.arrow-image-1:nth-of-type(4),
+.arrow-image-2:nth-of-type(6),
+.arrow-image-3:nth-of-type(8) {
+    transform: translateY(15px);
+}
+
+.live-data {
+    width: 100%;
+    padding: 16px 5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.data-item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    position: relative; /* WAJIB */
+    text-align: left;
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 4px 1px black;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    min-height: 45px;
+    text-align: left;
+}
+
+
+
+.data-result {
+    color: #00eaff;
+    font-weight: 900;
+    font-size: 25px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    position: absolute;  /* supaya bisa pakai left */
+    top: 50%;
+    transform: translateY(-50%); /* center vertical */
+    left: 83%; /* 🔥 bisa kamu ubah bebas */
+    
+}
+
+.data-item h1 {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%); /* center vertical */
+
+    left: 5%; /* default posisi kiri */
+    
+    color: white;
+    font-size: 25px;
+    margin: 0;
+}
