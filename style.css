@@ -35,8 +35,10 @@ html{
     display: flex;
     flex-direction: column;
     height: calc(80vh - 100px);
-    overflow-y: auto;
+    overflow-y: hidden;
     padding: 16px;
+    gap: 20px;
+    
 }
 
 .item {
@@ -46,10 +48,13 @@ html{
     padding: 8px;
     background-color: white;
     box-shadow: 0px 0px 4px 1px black;
+    align-items: center;
 } 
 
 .item-image{
     width: 50%;
+    margin: 0 auto;
+    display: block;
 }
 
 .item-submit,
@@ -246,7 +251,7 @@ html{
     font-family: 'Courier New', monospace;
     font-weight: bold;
     position: absolute;  /* supaya bisa pakai left */
-    top: 50%;
+    top: 28%;
     transform: translateY(-100% -50%); /* center vertical */
     left: 83%; /* 🔥 bisa kamu ubah bebas */
     
@@ -273,6 +278,6 @@ html{
     .data-result {
         left: 80%;
         font-size: 26px;
-        top: 100%;
+        top: 28%;
     }
 }
