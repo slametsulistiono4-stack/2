@@ -255,7 +255,7 @@ html{
     position: absolute;  /* supaya bisa pakai left */
     top: 28%;
     transform: translateY(-100% -50%); /* center vertical */
-    left: 81%; /* 🔥 bisa kamu ubah bebas */
+    left: 80%; /* 🔥 bisa kamu ubah bebas */
     
 }
 
