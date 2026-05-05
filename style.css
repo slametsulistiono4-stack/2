@@ -411,14 +411,18 @@ html{
 
 @media (max-width: 480px) {
 
+    /* 👉 kanan */
     .arrow-image,
     .arrow-image-3 {
-        transform: translateX(700px); /* geser kanan */
+        right: 5% !important;
+        left: auto !important;
     }
 
+    /* 👉 kiri */
     .arrow-image-1,
     .arrow-image-2 {
-        transform: translateX(-700px); /* geser kiri */
+        left: 5% !important;
+        right: auto !important;
     }
 
 }
