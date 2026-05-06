@@ -37,17 +37,39 @@ function setLampLeft() {
 }
 
 function updateData() {
-    document.getElementById("coolant").innerText = Math.floor(Math.random() * 100);
-    document.getElementById("map").innerText = Math.floor(Math.random() * 120);
-    document.getElementById("rpm").innerText = Math.floor(Math.random() * 3000);
-    document.getElementById("speed").innerText = Math.floor(Math.random() * 120);
-    document.getElementById("iat").innerText = Math.floor(Math.random() * 50);
-    document.getElementById("maf").innerText = Math.floor(Math.random() * 20);
-    document.getElementById("fuel").innerText = Math.floor(Math.random() * 300);
-    document.getElementById("led").innerText = Math.floor(Math.random() * 255);
+
+    const coolant = randomRange(70, 105);
+    const map = randomRange(20, 110);
+    const rpm = randomRange(700, 6000);
+    const speed = randomRange(0, 180);
+    const iat = randomRange(10, 50);
+    const maf = randomRange(2, 30);
+
+    // 🔥 fuel realistis (0 - 8 bar)
+    const fuel = randomRange(0, 101);
+
+    const led = randomRange(0, 100);
+
+    // tampilkan angka biasa
+    document.getElementById("coolant").innerText = coolant;
+    document.getElementById("map").innerText = map;
+    document.getElementById("rpm").innerText = rpm;
+    document.getElementById("speed").innerText = speed;
+    document.getElementById("iat").innerText = iat;
+    document.getElementById("maf").innerText = maf;
+    document.getElementById("led").innerText = led;
+
+    // 🔥 fuel pakai persen (max 100%)
+    const fuelPercent = Math.min((fuel / 10) * 100, 100);
+
+    document.getElementById("fuel").innerText = fuel.toFixed(0);
+    document.getElementById("fuelBar").style.width = fuelPercent + "%";
 }
 
-// update tiap 1 detik
+function randomRange(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 setInterval(updateData, 1000);
 
 const dbUrl = "https://smart-cars-a9536-default-rtdb.asia-southeast1.firebasedatabase.app/";
@@ -64,3 +86,13 @@ function controlWindow(pos, action) {
     })
   });
 }
+
+
+// ubah ke persen (bulat, tanpa desimal)
+const fuelPercent = Math.min(Math.floor((fuel / 10) * 100), 100);
+
+// tampilkan angka saja
+document.getElementById("fuel").innerText = fuelPercent;
+
+// update bar
+document.getElementById("fuelBar").style.width = fuelPercent + "%";
