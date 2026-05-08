@@ -176,7 +176,10 @@ function saveCurrentHourData() {
     const day = String(now.getDate()).padStart(2, "0");
     const hour = String(now.getHours()).padStart(2, "0");
 
-    const key = `${year}-${month}-${day}-${hour}`;
+const minute = String(now.getMinutes()).padStart(2, "0");
+
+const key =
+`${year}-${month}-${day}-${hour}-${minute}`;
 
     const db = getDatabase();
 
@@ -208,9 +211,9 @@ function loadHistoryData() {
         return;
     }
 
-    const hour = timeInput.split(":")[0];
+const [hour, minute] = timeInput.split(":");
 
-    const key = `${dateInput}-${hour}`;
+const key = `${dateInput}-${hour}-${minute}`;
 
     const db = getDatabase();
 
@@ -305,7 +308,7 @@ setInterval(() => {
 
     saveCurrentHourData();
 
-}, 3600000);
+}, 60000);
 
 /* ========================================= */
 /* START */
