@@ -73,7 +73,7 @@ html{
 .bottombar{
     position: absolute;
     bottom: 0;
-    background-color: rgb(0, 0, 255);
+    background-color: rgba(0, 0, 255, 0.549);
     color: black;
     left: 0;
     width: 100%;
@@ -226,19 +226,20 @@ html{
 }
 
 .data-item {
-    font-size: 10px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     position: relative; /* WAJIB */
     text-align: left;
     background: rgba(0, 0, 0, 0.2);
     box-shadow: 0px 0px 4px 1px black;
-    padding: 12px;
+    padding: 10px;
     border-radius: 10px;
     color: white;
     font-weight: bold;
     min-height: 45px;
     text-align: left;
+    padding: 12px;
     min-height: 50px;
 }
 
@@ -247,7 +248,7 @@ html{
 .data-result {
     color: #00eaff;
     font-weight: 900;
-    font-size: 27px;
+    font-size: 25px;
     font-family: 'Courier New', monospace;
     font-weight: bold;
     position: absolute;  /* supaya bisa pakai left */
@@ -261,9 +262,10 @@ html{
     position: absolute;
     top: 50%;
     transform: translateY(-50%); /* center vertical */
+
     left: 10px; /* default posisi kiri */
     color: white;
-    font-size: 25px;
+    font-size: 18px;
     margin: 0;
 }
 
@@ -424,33 +426,196 @@ html{
 
 }
 
-/* container angka + % */
-.fuel-display {
-    position: absolute;
-    right: 19%;
-    top: 45%;
-    transform: translateY(-50%);
+.fuel-display{
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 4px;
+
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-/* angka */
-.data-result {
+/* angka fuel */
+#fuel{
+    position: static;
+    transform: none;
+    font-size:  25px;
     color: #00eaff;
-    font-size: 27px;
-    font-weight: bold;
-    font-family: 'Courier New', monospace;
-    min-width: 40px; /* 🔥 supaya stabil tidak geser */
-    text-align: right;
 }
 
 /* simbol % */
-.percent-symbol {
-    color: #00eaff;
-    font-size: 24px;
+.percent-symbol{
+    font-size: 28px;
+    color: white;
     font-weight: bold;
-    text-shadow: 0 0 5px #00eaff;
-    margin-left: 400%;
-    margin-top: 60%;
+    position: absolute;
+    bottom: -6.5px;
+    right: -22px;
+}
+
+/* =========================
+   HISTORY BUTTON
+========================= */
+
+.history-wrapper{
+    width: 100%;
+    padding: 16px;
+    padding-bottom: 80px;
+
+    display: flex;
+    justify-content: center;
+}
+
+.item-submit-history{
+    width: 90%;
+    max-width: 350px;
+
+    padding: 12px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: blue;
+    color: white;
+
+    font-size: 20px;
+    font-weight: 800;
+
+    box-shadow: 0px 0px 6px rgba(0,0,0,0.5);
+
+    transition: 0.2s;
+}
+
+.item-submit-history:active{
+    transform: scale(0.96);
+}
+
+/* =========================
+   HISTORY PAGE
+========================= */
+
+.history-controls{
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    padding: 16px;
+}
+
+.history-controls label{
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.history-controls input{
+    width: 100%;
+    padding: 10px;
+
+    border-radius: 8px;
+    border: none;
+
+    font-size: 16px;
+}
+
+.load-btn{
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: blue;
+    color: white;
+
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+#fuel{
+    position: static;
+    transform: none;
+}
+
+/* =========================
+   HISTORY DATA ONLY
+========================= */
+
+.history-data{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    padding: 16px;
+    padding-bottom: 90px;
+}
+
+.history-item{
+    position: relative;
+
+    width: 100%;
+    min-height: 70px;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    background: rgba(0,0,0,0.2);
+
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.7);
+}
+
+.history-label{
+    position: absolute;
+
+    left: 14px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.history-value{
+    position: absolute;
+
+    right: 20px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #00eaff;
+
+    font-size: 25px;
+    font-weight: 900;
+
+    font-family: 'Courier New', monospace;
+}
+
+/* fuel khusus history */
+.history-fuel{
+    position: absolute;
+
+    right: 20px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.history-percent{
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
 }

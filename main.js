@@ -40,59 +40,280 @@ function updateData() {
 
     const coolant = randomRange(70, 105);
     const map = randomRange(20, 110);
-    const rpm = randomRange(700, 6000);
+    const rpm = randomRange(1000, 6000);
     const speed = randomRange(0, 180);
     const iat = randomRange(10, 50);
     const maf = randomRange(2, 30);
-
-    // 🔥 fuel realistis (0 - 8 bar)
-    const fuel = randomRange(0, 101);
-
+    const fuel = randomRange(0, 100);
     const led = randomRange(0, 100);
 
-    // tampilkan angka biasa
-    document.getElementById("coolant").innerText = coolant;
-    document.getElementById("map").innerText = map;
-    document.getElementById("rpm").innerText = rpm;
-    document.getElementById("speed").innerText = speed;
-    document.getElementById("iat").innerText = iat;
-    document.getElementById("maf").innerText = maf;
-    document.getElementById("led").innerText = led;
+    // helper aman
+    function setText(id, value) {
 
-    // 🔥 fuel pakai persen (max 100%)
-    const fuelPercent = Math.min((fuel / 10) * 100, 100);
+        const el = document.getElementById(id);
 
-    document.getElementById("fuel").innerText = fuel.toFixed(0);
-    document.getElementById("fuelBar").style.width = fuelPercent + "%";
+        if (el) {
+            el.innerText = value;
+        }
+    }
+
+    // LIVE DATA
+    setText("coolant", coolant);
+    setText("map", map);
+    setText("rpm", rpm);
+    setText("speed", speed);
+    setText("iat", iat);
+    setText("maf", maf);
+    setText("led", led);
+
+    // fuel
+    setText("fuel", fuel);
+
+    // fuel bar
+    const fuelBar = document.getElementById("fuelBar");
+
+    if (fuelBar) {
+        fuelBar.style.width = fuel + "%";
+    }
+
+    // speedometer
+    if (typeof updateSpeedometer === "function") {
+        updateSpeedometer(speed);
+    }
 }
 
 function randomRange(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-setInterval(updateData, 1000);
-
-const dbUrl = "https://smart-cars-a9536-default-rtdb.asia-southeast1.firebasedatabase.app/";
-
-function controlWindow(pos, action) {
-  fetch(dbUrl, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      pos: pos,
-      action: action
-    })
-  });
+// update tiap 1 detik
+// hanya jalan jika halaman punya live data
+if (
+    document.getElementById("coolant") ||
+    document.getElementById("map")
+) {
+    setInterval(updateData, 5000);
+    updateData();
 }
 
+/* ========================================= */
+/* SMART CAR HISTORY SYSTEM */
+/* ========================================= */
 
-// ubah ke persen (bulat, tanpa desimal)
-const fuelPercent = Math.min(Math.floor((fuel / 10) * 100), 100);
+/*
+    DATA TIDAK BERUBAH
+    DATA DISIMPAN PER JAM
+    BISA MELIHAT SAMPAI 10 TAHUN KE BELAKANG
+*/
 
-// tampilkan angka saja
-document.getElementById("fuel").innerText = fuelPercent;
+const STORAGE_KEY = "smartcar_history";
 
-// update bar
-document.getElementById("fuelBar").style.width = fuelPercent + "%";
+/* ========================================= */
+/* GENERATE DATA */
+/* ========================================= */
+
+function generateFixedData(dateKey) {
+
+    let seed = 0;
+
+    for (let i = 0; i < dateKey.length; i++) {
+        seed += dateKey.charCodeAt(i);
+    }
+
+    return {
+
+        coolant: 70 + (seed % 25),
+
+        manifold: 50 + (seed % 40),
+
+        rpm: 1000 + ((seed * 13) % 7000),
+
+        speed: 20 + ((seed * 7) % 220),
+
+        intake: 10 + (seed % 25),
+
+        maf: 5 + (seed % 50),
+
+        fuel: 5 + (seed % 90),
+
+        led: 1 + (seed % 10),
+    };
+}
+
+/* ========================================= */
+/* LOAD DATABASE */
+/* ========================================= */
+
+function getDatabase() {
+
+    const db = localStorage.getItem(STORAGE_KEY);
+
+    if (db) {
+        return JSON.parse(db);
+    }
+
+    return {};
+}
+
+/* ========================================= */
+/* SAVE DATABASE */
+/* ========================================= */
+
+function saveDatabase(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+/* ========================================= */
+/* SAVE CURRENT HOUR DATA */
+/* ========================================= */
+
+function saveCurrentHourData() {
+
+    const now = new Date();
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hour = String(now.getHours()).padStart(2, "0");
+
+    const key = `${year}-${month}-${day}-${hour}`;
+
+    const db = getDatabase();
+
+    /*
+        jika data belum ada
+        maka simpan sekali saja
+    */
+
+    if (!db[key]) {
+
+        db[key] = generateFixedData(key);
+
+        saveDatabase(db);
+
+    }
+}
+
+/* ========================================= */
+/* LOAD DATA */
+/* ========================================= */
+
+function loadHistoryData() {
+
+    const dateInput = document.getElementById("historyDate").value;
+    const timeInput = document.getElementById("historyTime").value;
+
+    if (!dateInput || !timeInput) {
+        alert("Pilih tanggal dan jam");
+        return;
+    }
+
+    const hour = timeInput.split(":")[0];
+
+    const key = `${dateInput}-${hour}`;
+
+    const db = getDatabase();
+
+    let data = db[key];
+
+    /*
+        jika belum ada data lama
+        generate permanen sekali
+    */
+
+    if (!data) {
+
+        data = generateFixedData(key);
+
+        db[key] = data;
+
+        saveDatabase(db);
+    }
+
+    /* tampilkan */
+
+    document.getElementById("coolantValue").innerText = data.coolant;
+    document.getElementById("manifoldValue").innerText = data.manifold;
+    document.getElementById("rpmValue").innerText = data.rpm;
+    document.getElementById("speedValue").innerText = data.speed;
+    document.getElementById("intakeValue").innerText = data.intake;
+    document.getElementById("mafValue").innerText = data.maf;
+    document.getElementById("fuelValue").innerText = data.fuel;
+    document.getElementById("ledValue").innerText = data.led;
+}
+
+/* ========================================= */
+/* INIT */
+/* ========================================= */
+
+function initDateTime() {
+
+    const now = new Date();
+
+    const maxDate = new Date();
+    const minDate = new Date();
+
+    minDate.setFullYear(now.getFullYear() - 10);
+
+    const formatDate = (d) => {
+
+        const y = d.getFullYear();
+
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+
+        const da = String(d.getDate()).padStart(2, "0");
+
+        return `${y}-${m}-${da}`;
+    };
+
+    document.getElementById("historyDate").min = formatDate(minDate);
+
+    document.getElementById("historyDate").max = formatDate(maxDate);
+
+    document.getElementById("historyDate").value = formatDate(now);
+
+    document.getElementById("historyTime").value =
+        `${String(now.getHours()).padStart(2, "0")}:00`;
+}
+
+/* ========================================= */
+/* BUTTON */
+/* ========================================= */
+
+const loadBtn = document.getElementById("loadHistory");
+
+if (loadBtn) {
+    loadBtn.addEventListener("click", loadHistoryData);
+}
+
+/* ========================================= */
+/* AUTO SAVE */
+/* ========================================= */
+
+/*
+    setiap buka web
+    simpan data jam sekarang
+*/
+
+saveCurrentHourData();
+
+/*
+    auto simpan tiap 1 jam
+*/
+
+setInterval(() => {
+
+    saveCurrentHourData();
+
+}, 3600000);
+
+/* ========================================= */
+/* START */
+/* ========================================= */
+
+if (document.getElementById("historyDate")) {
+
+    initDateTime();
+
+    loadHistoryData();
+}

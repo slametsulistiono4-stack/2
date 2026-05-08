@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="layouts">
+    <section class="navbar">
+        <h1>SMART CAR</h1>
+    </section>
+<section class="history-controls">
+
+    <div>
+        <label>Tanggal</label>
+        <input type="date" id="historyDate">
+    </div>
+
+    <div>
+        <label>Jam</label>
+        <input type="time" id="historyTime">
+    </div>
+
+    <button class="load-btn" id="loadHistory">LOAD</button>
+
+</section>
+<div class="history-data">
+
+    <div class="history-item">
+        <span class="history-label">
+            Coolant temperature [°C]
+        </span>
+
+        <span id="coolantValue"
+              class="history-value">0</span>
+    </div>
+
+    <div class="history-item">
+        <span class="history-label">
+            Manifold pressure [kPa]
+        </span>
+
+        <span id="manifoldValue"
+              class="history-value">0</span>
+    </div>
+
+    <div class="history-item">
+        <span class="history-label">
+            Engine RPM [1/min]
+        </span>
+
+        <span id="rpmValue"
+              class="history-value">0</span>
+    </div>
+
+    <div class="history-item">
+        <span class="history-label">
+            Speed [km/h]
+        </span>
+
+        <span id="speedValue"
+              class="history-value">0</span>
+    </div>
+
+    <div class="history-item">
+        <span class="history-label">
+            Intake air temperature [°C]
+        </span>
+
+        <span id="intakeValue"
+              class="history-value">0</span>
+    </div>
+
+    <div class="history-item">
+        <span class="history-label">
+            MAF rate [g/sec]
+        </span>
+
+        <span id="mafValue"
+              class="history-value">0</span>
+    </div>
+
+    <div class="history-item">
+
+        <span class="history-label">
+            Fuel pressure [bar]
+        </span>
+
+        <div class="history-fuel">
+
+            <span id="fuelValue"
+                  class="history-value">
+                  0
+            </span>
+
+            <span class="history-percent">
+                %
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="history-item">
+        <span class="history-label">
+            Ambient LED brightness
+        </span>
+
+        <span id="ledValue"
+              class="history-value">0</span>
+    </div>
+
+</div>
+
+</section>
+    <section class="bottombar">
+        <ul>
+            <li><a href="index.html"><i class="fa-solid fa-home"></i></a></li>
+            <li><a href="status.html"><i class="fa-solid fa-gears"></i></a></li>
+            <li><a href="setting.html"><i class="fa-solid fa-screwdriver-wrench"></i></a></li>
+            <li><a href="akun.html"><i class="fa-solid fa-user "></i></a></li>
+        </ul>
+    </section>
+</div>
+    <script src="main.js"></script>
+    
+</body>
+</html>
