@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Akun</title>
     <link rel="stylesheet" href="style.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -12,6 +12,58 @@
     <section class="navbar">
         <h1>SMART CAR</h1>
     </section>
+    <div class="layouts">
+
+    <section class="page-title">
+        <h3>AKUN</h3>
+    </section>
+
+    <div class="akun-wrapper">
+
+        <div class="akun-card">
+<div class="akun-item">
+    <span>Username</span>
+
+    <input
+        type="text"
+        id="usernameInput"
+        class="akun-input"
+        placeholder="Masukkan Username"
+    >
+</div>
+
+<div class="akun-item">
+    <span>Email</span>
+
+    <input
+        type="email"
+        id="emailInput"
+        class="akun-input"
+        placeholder="Masukkan Email"
+    >
+</div>
+
+<div class="akun-item">
+    <span>Password</span>
+
+    <input
+        type="password"
+        id="passwordInput"
+        class="akun-input"
+        placeholder="Masukkan Password"
+    >
+</div>
+
+<button onclick="saveAccount()" class="save-btn">
+    SIMPAN
+</button>
+
+            <button onclick="logout()" class="logout-btn">
+                LOGOUT
+            </button>
+
+        </div>
+    
     <section class="bottombar">
         <ul>
             <li><a href="index.html"><i class="fa-solid fa-home"></i></a></li>

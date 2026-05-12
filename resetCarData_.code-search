@@ -1,0 +1,31 @@
+# Query: resetCarData();
+# ContextLines: 1
+
+3 results - 1 file
+
+main.js:
+   96  
+   97:     if (ecuConnected) {
+
+    startECU();
+
+} else {
+
+    resetCarData();
+}
+   98  
+
+  205  
+  206:     if (ecuConnected) {
+
+    startECU();
+
+} else {
+
+    resetCarData();
+}
+  207  }
+
+  227  
+  228: esetCarData();
+  229  

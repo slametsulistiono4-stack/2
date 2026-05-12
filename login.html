@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div class="login-container">
+
+    <div class="login-box">
+
+        <h1 class="login-title">
+            SMART CAR
+        </h1>
+
+        <input
+            type="text"
+            id="loginInput"
+            class="login-input"
+            placeholder="Email atau Username"
+        >
+
+        <input
+            type="password"
+            id="passwordInputLogin"
+            class="login-input"
+            placeholder="Password"
+        >
+
+        <button
+            class="login-btn"
+            onclick="login()"
+        >
+            LOGIN
+        </button>
+
+        <div id="error" class="error-text"></div>
+
+    </div>
+
+</div>
+
+<script src="login.js"></script>
+
+
+</head>
+</html>

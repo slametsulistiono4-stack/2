@@ -320,3 +320,133 @@ if (document.getElementById("historyDate")) {
 
     loadHistoryData();
 }
+
+/* =========================
+   LOGIN CHECK
+========================= */
+
+const isLogin = localStorage.getItem("isLogin");
+
+const currentPage =
+window.location.pathname.split("/").pop();
+
+if(
+    isLogin !== "true" &&
+    currentPage !== "login.html"
+){
+    window.location.href = "login.html";
+}
+
+function logout(){
+
+    localStorage.removeItem("isLogin");
+
+    window.location.href = "login.html";
+}
+
+/* =========================
+   ACCOUNT SYSTEM
+========================= */
+
+/*
+    load data akun
+*/
+
+function loadAccount(){
+
+    const currentUser =
+    localStorage.getItem("currentUser");
+
+    if(!currentUser) return;
+
+    const users =
+    JSON.parse(localStorage.getItem("users")) || {};
+
+    const user = users[currentUser];
+
+    if(!user) return;
+
+    const usernameInput =
+    document.getElementById("usernameInput");
+
+    const emailInput =
+    document.getElementById("emailInput");
+
+    const passwordInput =
+    document.getElementById("passwordInput");
+
+    if(usernameInput){
+        usernameInput.value = user.username;
+    }
+
+    if(emailInput){
+        emailInput.value = user.email;
+    }
+
+    if(passwordInput){
+        passwordInput.value = user.password;
+    }
+}
+
+/*
+    simpan akun
+*/
+
+function saveAccount(){
+
+    const currentUser =
+    localStorage.getItem("currentUser");
+
+    let users =
+    JSON.parse(localStorage.getItem("users")) || {};
+
+    if(!users[currentUser]) return;
+
+    const newEmail =
+    document.getElementById("emailInput").value;
+
+    const updatedUser = {
+
+        username:
+        document.getElementById("usernameInput").value,
+
+        email: newEmail,
+
+        password:
+        document.getElementById("passwordInput").value
+    };
+
+    /*
+        hapus email lama
+    */
+
+    delete users[currentUser];
+
+    /*
+        simpan email baru
+    */
+
+    users[newEmail] = updatedUser;
+
+    localStorage.setItem(
+        "users",
+        JSON.stringify(users)
+    );
+
+    /*
+        update user aktif
+    */
+
+    localStorage.setItem(
+        "currentUser",
+        newEmail
+    );
+
+    alert("Data akun berhasil disimpan");
+}
+
+/*
+    auto load akun
+*/
+
+loadAccount();
