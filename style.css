@@ -132,6 +132,9 @@ html{
 
 .page-title{
     padding: 16px;
+   
+
+
 }
 
 
@@ -824,4 +827,95 @@ html{
     margin-top: 10px;
 
     text-align: center;
+}
+
+.voice-control{
+    min-height: calc(100vh - 120px);
+
+    padding: 16px;
+    padding-bottom: 90px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    gap: 22px;
+
+    color: white;
+}
+
+
+
+.mic-btn{
+    width: 140px;
+    height: 140px;
+    
+    border-radius: 50%;
+    border: none;
+    margin-left: auto;
+    margin-right: auto;
+    background: white;
+    color: blue;
+
+    font-size: 60px;
+
+    box-shadow: 0px 0px 15px black;
+    transition: 0.2s;
+}
+
+.mic-btn:active,
+.mic-btn.recording{
+    transform: scale(0.92);
+    background: red;
+    color: white;
+    box-shadow: 0px 0px 25px red;
+}
+
+#voiceText{
+    text-align: center;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.command-icon{
+    width: 90%;
+    max-width: 330px;
+
+    background: rgba(0,0,0,0.45);
+    border-radius: 15px;
+
+    padding: 18px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 0px 8px black;
+}
+
+.command-icon i{
+    font-size: 55px;
+    color: white;
+}
+
+.command-icon span{
+    font-size: 20px;
+    font-weight:700;
+    color: white;
+}
+
+.voice-control h3{
+    background: blue;
+    width: 100%;
+    text-align: center;
+    padding: 8px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px black;
+    margin-top: 0px;
+    margin-bottom: 117px;
 }

@@ -450,3 +450,150 @@ function saveAccount(){
 */
 
 loadAccount();
+
+const micBtn = document.getElementById("micBtn");
+const voiceText = document.getElementById("voiceText");
+const commandIcon = document.getElementById("commandIcon");
+
+let recognition;
+let isRecording = false;
+
+// Cek apakah browser mendukung voice recognition
+if ("webkitSpeechRecognition" in window) {
+
+    recognition = new webkitSpeechRecognition();
+    recognition.lang = "id-ID";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = function () {
+        isRecording = true;
+        micBtn.classList.add("recording");
+        voiceText.innerText = "Mendengarkan perintah...";
+    };
+
+    recognition.onresult = function (event) {
+        const command = event.results[0][0].transcript.toLowerCase();
+        voiceText.innerText = "Perintah: " + command;
+
+        prosesPerintah(command);
+    };
+
+    recognition.onerror = function () {
+        voiceText.innerText = "Suara tidak terbaca, coba lagi";
+        stopMic();
+    };
+
+    recognition.onend = function () {
+        stopMic();
+    };
+
+} else {
+    voiceText.innerText = "Browser tidak mendukung voice recognition";
+}
+
+// Tekan dan tahan mic
+micBtn.addEventListener("mousedown", startMic);
+micBtn.addEventListener("mouseup", stopMic);
+
+// Untuk HP / touchscreen
+micBtn.addEventListener("touchstart", function(e){
+    e.preventDefault();
+    startMic();
+});
+
+micBtn.addEventListener("touchend", function(e){
+    e.preventDefault();
+    stopMic();
+});
+
+function startMic() {
+    if (!recognition || isRecording) return;
+    recognition.start();
+}
+
+function stopMic() {
+    isRecording = false;
+    micBtn.classList.remove("recording");
+
+    try {
+        recognition.stop();
+    } catch (e) {}
+
+    voiceText.innerText = "Tekan dan tahan mic untuk memberi perintah";
+}
+
+function prosesPerintah(command) {
+
+    if (command.includes("nyalakan lampu") || command.includes("lampu hidup")) {
+        tampilkanIcon("fa-solid fa-lightbulb", "Lampu dinyalakan");
+        kirimPerintahMobil("LAMP_ON");
+    }
+
+    else if (command.includes("matikan lampu")) {
+        tampilkanIcon("fa-regular fa-lightbulb", "Lampu dimatikan");
+        kirimPerintahMobil("LAMP_OFF");
+    }
+
+    else if (command.includes("buka jendela")) {
+        tampilkanIcon("fa-solid fa-car-side", "Jendela dibuka");
+        kirimPerintahMobil("WINDOW_OPEN");
+    }
+
+    else if (command.includes("tutup jendela")) {
+        tampilkanIcon("fa-solid fa-car", "Jendela ditutup");
+        kirimPerintahMobil("WINDOW_CLOSE");
+    }
+
+    else if (command.includes("ganti radio") || command.includes("radio")) {
+        tampilkanIcon("fa-solid fa-radio", "Radio diganti");
+        kirimPerintahMobil("RADIO_NEXT");
+    }
+
+    else if (command.includes("maju")) {
+        tampilkanIcon("fa-solid fa-arrow-up", "Mobil maju");
+        kirimPerintahMobil("CAR_FORWARD");
+    }
+
+    else if (command.includes("mundur")) {
+        tampilkanIcon("fa-solid fa-arrow-down", "Mobil mundur");
+        kirimPerintahMobil("CAR_BACKWARD");
+    }
+
+    else if (command.includes("belok kiri")) {
+        tampilkanIcon("fa-solid fa-arrow-left", "Mobil belok kiri");
+        kirimPerintahMobil("CAR_LEFT");
+    }
+
+    else if (command.includes("belok kanan")) {
+        tampilkanIcon("fa-solid fa-arrow-right", "Mobil belok kanan");
+        kirimPerintahMobil("CAR_RIGHT");
+    }
+
+    else if (command.includes("berhenti") || command.includes("stop")) {
+        tampilkanIcon("fa-solid fa-hand", "Mobil berhenti");
+        kirimPerintahMobil("CAR_STOP");
+    }
+
+    else {
+        tampilkanIcon("fa-solid fa-circle-xmark", "Perintah tidak dikenali");
+    }
+}
+
+function tampilkanIcon(icon, text) {
+    commandIcon.innerHTML = `
+        <i class="${icon}"></i>
+        <span>${text}</span>
+    `;
+}
+
+function kirimPerintahMobil(perintah) {
+    console.log("Perintah dikirim:", perintah);
+
+    // Nanti bagian ini bisa kamu hubungkan ke Firebase / ESP32
+    // Contoh:
+    // fetch("URL_DATABASE_KAMU/command.json", {
+    //     method: "PUT",
+    //     body: JSON.stringify(perintah)
+    // });
+}
