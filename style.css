@@ -919,3 +919,273 @@ html{
     margin-top: 0px;
     margin-bottom: 117px;
 }
+
+/* =========================
+   WINDOW BUTTON FOLLOW ARROW
+========================= */
+
+/* wrapper panah */
+
+
+/* tombol transparan tepat di atas panah */
+.arrow-btn{
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    z-index: 10000;
+}
+
+/* debug */
+.arrow-btn:active{
+    background: rgba(255,0,0,0.35);
+}
+
+/* KANAN ATAS */
+.arrow-right-top{
+    top: 40%;
+    right: 15%;
+    transform: translateY(-30px);
+}
+
+/* KANAN TENGAH */
+.arrow-right-middle{
+    top: 40.5%;
+    right: 15%;
+    transform: translateY(15px);
+}
+
+/* KIRI ATAS */
+.arrow-left-top{
+    top: 35%;
+    left: 14.5%;
+    transform: translateY(-30px);
+}
+
+/* KIRI TENGAH */
+.arrow-left-middle{
+    top: 35%;
+    left: 14.5%;
+    transform: translateY(15px);
+}
+
+/* KIRI BAWAH */
+.arrow-left-bottom-top{
+    top: 63%;
+    left: 14.5%;
+    transform: translateY(-30px);
+}
+
+.arrow-left-bottom{
+    top: 63%;
+    left: 14.5%;
+    transform: translateY(15px);
+}
+
+/* KANAN BAWAH */
+.arrow-right-bottom-top{
+    top: 63%;
+    right: 14.5%;
+    transform: translateY(-30px);
+}
+
+.arrow-right-bottom{
+    top: 63%;
+    right: 14.5%;
+    transform: translateY(15px);
+}
+
+.arrow-wrapper{
+    position: absolute;
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+/* gambar panah */
+.arrow-wrapper img{
+    width: 40px;
+    height: 40px;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+/* tombol tepat di atas gambar */
+/* =========================
+   BUTTON 1
+========================= */
+
+.button1-btn{
+    position: absolute;
+
+    top: -40%;
+    right: 14.5%;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+
+    z-index: 10000;
+}
+
+/* =========================
+   BUTTON 2
+========================= */
+
+.button2-btn{
+    position: absolute;
+
+    top: -40%;
+    right: 14.5%;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+
+    z-index: 10000;
+}
+
+/* =========================
+   BUTTON 3
+========================= */
+
+.button3-btn{
+    position: absolute;
+
+    top: 31%;
+    left: 14.5%;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+
+    z-index: 10000;
+}
+
+/* =========================
+   BUTTON 4
+========================= */
+
+.button4-btn{
+    position: absolute;
+
+    top: 39%;
+    left: 14.5%;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+
+    z-index: 10000;
+}
+
+/* =========================
+   BUTTON 5
+========================= */
+
+.button5-btn{
+    position: absolute;
+
+    top: 59%;
+    left: 14.5%;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+
+    z-index: 10000;
+}
+
+/* =========================
+   BUTTON 6
+========================= */
+
+.button6-btn{
+    position: absolute;
+
+    top: 67%;
+    left: 14.5%;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+
+    z-index: 10000;
+}
+
+/* =========================
+   BUTTON 7
+========================= */
+
+.button7-btn{
+    position: absolute;
+
+    top: 59%;
+    right: 14.5%;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+
+    z-index: 10000;
+}
+
+/* =========================
+   BUTTON 8
+========================= */
+
+.button8-btn{
+    position: absolute;
+
+    top: 67%;
+    right: 14.5%;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+
+    z-index: 10000;
+}

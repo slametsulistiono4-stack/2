@@ -1,4 +1,10 @@
+const endpoint = "http://192.168.1.3";
+
+
 function setLampRight() {
+    fetch(endpoint + "/lampright", {
+        method: "POST"
+    }).then(Response => Response.text()).then(result => console.log(result))
     const btn = document.getElementById("btnRight");
 
     if (ledRightImage.src.includes("led-on.png")) {
@@ -18,6 +24,9 @@ function setLampRight() {
 }
 
 function setLampLeft() {
+    fetch(endpoint + "/lampleft", {
+        method: "POST"
+    }).then(Response => Response.text()).then(result => console.log(result))
     const btn = document.getElementById("btnLeft");
 
     if (ledLeftImage.src.includes("led-on.png")) {
@@ -459,7 +468,7 @@ let recognition;
 let isRecording = false;
 
 // Cek apakah browser mendukung voice recognition
-if ("webkitSpeechRecognition" in window) {
+if (micBtn && voiceText && commandIcon && "webkitSpeechRecognition" in window) {
 
     recognition = new webkitSpeechRecognition();
     recognition.lang = "id-ID";
@@ -488,24 +497,28 @@ if ("webkitSpeechRecognition" in window) {
         stopMic();
     };
 
-} else {
-    voiceText.innerText = "Browser tidak mendukung voice recognition";
+}  else {
+    if (voiceText) {
+        voiceText.innerText = "Browser tidak mendukung voice recognition";
+    }
 }
 
 // Tekan dan tahan mic
-micBtn.addEventListener("mousedown", startMic);
-micBtn.addEventListener("mouseup", stopMic);
+if (micBtn) {
 
-// Untuk HP / touchscreen
-micBtn.addEventListener("touchstart", function(e){
-    e.preventDefault();
-    startMic();
-});
+    micBtn.addEventListener("mousedown", startMic);
+    micBtn.addEventListener("mouseup", stopMic);
 
-micBtn.addEventListener("touchend", function(e){
-    e.preventDefault();
-    stopMic();
-});
+    micBtn.addEventListener("touchstart", function(e){
+        e.preventDefault();
+        startMic();
+    });
+
+    micBtn.addEventListener("touchend", function(e){
+        e.preventDefault();
+        stopMic();
+    });
+}
 
 function startMic() {
     if (!recognition || isRecording) return;
@@ -523,77 +536,251 @@ function stopMic() {
     voiceText.innerText = "Tekan dan tahan mic untuk memberi perintah";
 }
 
-function prosesPerintah(command) {
+function setButton1() {
 
-    if (command.includes("nyalakan lampu") || command.includes("lampu hidup")) {
-        tampilkanIcon("fa-solid fa-lightbulb", "Lampu dinyalakan");
-        kirimPerintahMobil("LAMP_ON");
-    }
+    fetch(endpoint + "/button1", {
+        method: "POST"
+    })
+    .then(response => response.text())
+    .then(result => {
 
-    else if (command.includes("matikan lampu")) {
-        tampilkanIcon("fa-regular fa-lightbulb", "Lampu dimatikan");
-        kirimPerintahMobil("LAMP_OFF");
-    }
+        console.log(result);
 
-    else if (command.includes("buka jendela")) {
-        tampilkanIcon("fa-solid fa-car-side", "Jendela dibuka");
-        kirimPerintahMobil("WINDOW_OPEN");
-    }
+        if(result == "ON") {
 
-    else if (command.includes("tutup jendela")) {
-        tampilkanIcon("fa-solid fa-car", "Jendela ditutup");
-        kirimPerintahMobil("WINDOW_CLOSE");
-    }
+            console.log("Jendela 1 aktif");
 
-    else if (command.includes("ganti radio") || command.includes("radio")) {
-        tampilkanIcon("fa-solid fa-radio", "Radio diganti");
-        kirimPerintahMobil("RADIO_NEXT");
-    }
+        } else {
 
-    else if (command.includes("maju")) {
-        tampilkanIcon("fa-solid fa-arrow-up", "Mobil maju");
-        kirimPerintahMobil("CAR_FORWARD");
-    }
-
-    else if (command.includes("mundur")) {
-        tampilkanIcon("fa-solid fa-arrow-down", "Mobil mundur");
-        kirimPerintahMobil("CAR_BACKWARD");
-    }
-
-    else if (command.includes("belok kiri")) {
-        tampilkanIcon("fa-solid fa-arrow-left", "Mobil belok kiri");
-        kirimPerintahMobil("CAR_LEFT");
-    }
-
-    else if (command.includes("belok kanan")) {
-        tampilkanIcon("fa-solid fa-arrow-right", "Mobil belok kanan");
-        kirimPerintahMobil("CAR_RIGHT");
-    }
-
-    else if (command.includes("berhenti") || command.includes("stop")) {
-        tampilkanIcon("fa-solid fa-hand", "Mobil berhenti");
-        kirimPerintahMobil("CAR_STOP");
-    }
-
-    else {
-        tampilkanIcon("fa-solid fa-circle-xmark", "Perintah tidak dikenali");
-    }
+            console.log("Jendela 1 nonaktif");
+        }
+    });
 }
 
-function tampilkanIcon(icon, text) {
-    commandIcon.innerHTML = `
-        <i class="${icon}"></i>
-        <span>${text}</span>
-    `;
+function setButton2() {
+
+    fetch(endpoint + "/button2", {
+        method: "POST"
+    })
+    .then(response => response.text())
+    .then(result => {
+
+        console.log(result);
+
+        if(result == "ON") {
+
+            console.log("Jendela 2 aktif");
+
+        } else {
+
+            console.log("Jendela 2 nonaktif");
+        }
+    });
 }
 
-function kirimPerintahMobil(perintah) {
-    console.log("Perintah dikirim:", perintah);
+function setButton3() {
 
-    // Nanti bagian ini bisa kamu hubungkan ke Firebase / ESP32
-    // Contoh:
-    // fetch("URL_DATABASE_KAMU/command.json", {
-    //     method: "PUT",
-    //     body: JSON.stringify(perintah)
-    // });
+    fetch(endpoint + "/button3", {
+        method: "POST"
+    })
+    .then(response => response.text())
+    .then(result => {
+
+        console.log(result);
+
+        if(result == "ON") {
+
+            console.log("Jendela 3 aktif");
+
+        } else {
+
+            console.log("Jendela 3 nonaktif");
+        }
+    });
+}
+
+function setButton4() {
+
+    fetch(endpoint + "/button4", {
+        method: "POST"
+    })
+    .then(response => response.text())
+    .then(result => {
+
+        console.log(result);
+
+        if(result == "ON") {
+
+            console.log("Jendela 4 aktif");
+
+        } else {
+
+            console.log("Jendela 4 nonaktif");
+        }
+    });
+}
+
+function setButton5() {
+
+    fetch(endpoint + "/button5", {
+        method: "POST"
+    })
+    .then(response => response.text())
+    .then(result => {
+
+        console.log(result);
+
+        if(result == "ON") {
+
+            console.log("Jendela 5 aktif");
+
+        } else {
+
+            console.log("Jendela 5 nonaktif");
+        }
+    });
+}
+
+function setButton6() {
+
+    fetch(endpoint + "/button6", {
+        method: "POST"
+    })
+    .then(response => response.text())
+    .then(result => {
+
+        console.log(result);
+
+        if(result == "ON") {
+
+            console.log("Jendela 6 aktif");
+
+        } else {
+
+            console.log("Jendela 6 nonaktif");
+        }
+    });
+}
+
+function setButton7() {
+
+    fetch(endpoint + "/button7", {
+        method: "POST"
+    })
+    .then(response => response.text())
+    .then(result => {
+
+        console.log(result);
+
+        if(result == "ON") {
+
+            console.log("Jendela 7 aktif");
+
+        } else {
+
+            console.log("Jendela 7 nonaktif");
+        }
+    });
+}
+
+function setButton8() {
+
+    fetch(endpoint + "/button8", {
+        method: "POST"
+    })
+    .then(response => response.text())
+    .then(result => {
+
+        console.log(result);
+
+        if(result == "ON") {
+
+            console.log("Jendela 8 aktif");
+
+        } else {
+
+            console.log("Jendela 8 nonaktif");
+        }
+    });
+}
+
+const firebaseURL =
+"https://smart-cars-a9536-default-rtdb.asia-southeast1.firebasedatabase.app/smartcar/command.json";
+
+function sendCommand(command){
+
+    fetch(firebaseURL,{
+        method:"PUT",
+        body:JSON.stringify(command)
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        console.log("Perintah terkirim:", command);
+
+    })
+
+    .catch(error => {
+
+        console.log("Error:", error);
+
+    });
+}
+
+/* =========================
+   JENDELA KANAN DEPAN
+========================= */
+
+function setButton1(){
+
+    sendCommand("WINDOW_RIGHT_FRONT_ON");
+}
+
+function setButton2(){
+
+    sendCommand("WINDOW_RIGHT_FRONT_OFF");
+}
+
+/* =========================
+   JENDELA KIRI DEPAN
+========================= */
+
+function setButton3(){
+
+    sendCommand("WINDOW_LEFT_FRONT_ON");
+}
+
+function setButton4(){
+
+    sendCommand("WINDOW_LEFT_FRONT_OFF");
+}
+
+/* =========================
+   JENDELA KIRI BELAKANG
+========================= */
+
+function setButton5(){
+
+    sendCommand("WINDOW_LEFT_BACK_ON");
+}
+
+function setButton6(){
+
+    sendCommand("WINDOW_LEFT_BACK_OFF");
+}
+
+/* =========================
+   JENDELA KANAN BELAKANG
+========================= */
+
+function setButton7(){
+
+    sendCommand("WINDOW_RIGHT_BACK_ON");
+}
+
+function setButton8(){
+
+    sendCommand("WINDOW_RIGHT_BACK_OFF");
 }
