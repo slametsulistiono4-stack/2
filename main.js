@@ -1074,111 +1074,101 @@ document.addEventListener("DOMContentLoaded", function(){
 
 });
 
-const firebaseCommandURL =
+/* =========================
+   MODE LOCAL / FIREBASE
+========================= */
+
+const CONTROL_MODE =
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "localhost"
+    ? "local"
+    : "firebase";
+
+const FIREBASE_COMMAND_URL =
 "https://smart-cars-a9536-default-rtdb.asia-southeast1.firebasedatabase.app/smartcar/command.json";
 
-function sendFirebase(command){
-    fetch(firebaseCommandURL, {
-        method: "PUT",
-        body: JSON.stringify(command)
-    })
-    .then(res => res.json())
-    .then(data => console.log("Firebase:", command))
-    .catch(err => console.log("Firebase error:", err));
+function kirimCommand(pathLocal, commandFirebase){
+
+    if(CONTROL_MODE === "local"){
+
+        fetch(endpoint + pathLocal, {
+            method: "POST"
+        })
+        .then(response => response.text())
+        .then(result => console.log("LOCAL:", result))
+        .catch(error => console.log("LOCAL ERROR:", error));
+
+    } else {
+
+        fetch(FIREBASE_COMMAND_URL, {
+            method: "PUT",
+            body: JSON.stringify(commandFirebase)
+        })
+        .then(response => response.json())
+        .then(result => console.log("FIREBASE:", commandFirebase))
+        .catch(error => console.log("FIREBASE ERROR:", error));
+    }
 }
 
-/* WINDOW CONTROL */
-function setButton1(){
-    sendFirebase("BUTTON1");
+/* =========================
+   WINDOW CONTROL
+========================= */
+
+function setButton1(){ kirimCommand("/button1", "BUTTON1"); }
+function setButton2(){ kirimCommand("/button2", "BUTTON2"); }
+function setButton3(){ kirimCommand("/button3", "BUTTON3"); }
+function setButton4(){ kirimCommand("/button4", "BUTTON4"); }
+function setButton5(){ kirimCommand("/button5", "BUTTON5"); }
+function setButton6(){ kirimCommand("/button6", "BUTTON6"); }
+function setButton7(){ kirimCommand("/button7", "BUTTON7"); }
+function setButton8(){ kirimCommand("/button8", "BUTTON8"); }
+
+/* =========================
+   RADIO CONTROL
+========================= */
+
+function back(){ kirimCommand("/radioback", "RADIO_BACK"); }
+function forward(){ kirimCommand("/radioforward", "RADIO_FORWARD"); }
+function source(){ kirimCommand("/radiosource", "RADIO_SOURCE"); }
+function select(){ kirimCommand("/radioselect", "RADIO_SELECT"); }
+function prev_song(){ kirimCommand("/radioprev", "RADIO_BACK"); }
+function next_song(){ kirimCommand("/radionext", "RADIO_FORWARD"); }
+function vol_down(){ kirimCommand("/radiovoldown", "RADIO_BACK"); }
+function vol_up(){ kirimCommand("/radiovolup", "RADIO_FORWARD"); }
+
+/* =========================
+   FIX WINDOW CONTROL TANPA UBAH CSS
+========================= */
+
+function aktifkanWindowButton(selector, fungsi){
+    const area = document.querySelector(selector);
+
+    if(area){
+        area.onclick = function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            fungsi();
+        };
+
+        area.ontouchstart = function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            fungsi();
+        };
+    }
 }
 
-function setButton2(){
-    sendFirebase("BUTTON2");
-}
+document.addEventListener("DOMContentLoaded", function(){
 
-function setButton3(){
-    sendFirebase("BUTTON3");
-}
+    aktifkanWindowButton(".arrow-right-top", setButton1);
+    aktifkanWindowButton(".arrow-right-middle", setButton2);
 
-function setButton4(){
-    sendFirebase("BUTTON4");
-}
+    aktifkanWindowButton(".arrow-left-top", setButton3);
+    aktifkanWindowButton(".arrow-left-middle", setButton4);
 
-function setButton5(){
-    sendFirebase("BUTTON5");
-}
+    aktifkanWindowButton(".arrow-left-bottom-top", setButton5);
+    aktifkanWindowButton(".arrow-left-bottom", setButton6);
 
-function setButton6(){
-    sendFirebase("BUTTON6");
-}
-
-function setButton7(){
-    sendFirebase("BUTTON7");
-}
-
-function setButton8(){
-    sendFirebase("BUTTON8");
-}
-
-/* RADIO CONTROL */
-function back(){
-    sendFirebase("RADIO_BACK");
-}
-
-function forward(){
-    sendFirebase("RADIO_FORWARD");
-}
-
-function source(){
-    sendFirebase("RADIO_SOURCE");
-}
-
-function select(){
-    sendFirebase("RADIO_SELECT");
-}
-
-function prev_song(){
-    sendFirebase("RADIO_PREV");
-}
-
-function next_song(){
-    sendFirebase("RADIO_NEXT");
-}
-
-function vol_down(){
-    sendFirebase("RADIO_VOL_DOWN");
-}
-
-function vol_up(){
-    sendFirebase("RADIO_VOL_UP");
-}
-
-const firebaseURL =
-"https://smart-cars-a9536-default-rtdb.asia-southeast1.firebasedatabase.app/smartcar/command.json";
-
-function sendFirebase(command){
-    fetch(firebaseURL, {
-        method: "PUT",
-        body: JSON.stringify(command)
-    })
-    .then(() => console.log("Kirim:", command))
-    .catch(error => console.log("Firebase error:", error));
-}
-
-function setButton1(){ sendFirebase("BUTTON1"); }
-function setButton2(){ sendFirebase("BUTTON2"); }
-function setButton3(){ sendFirebase("BUTTON3"); }
-function setButton4(){ sendFirebase("BUTTON4"); }
-function setButton5(){ sendFirebase("BUTTON5"); }
-function setButton6(){ sendFirebase("BUTTON6"); }
-function setButton7(){ sendFirebase("BUTTON7"); }
-function setButton8(){ sendFirebase("BUTTON8"); }
-
-function back(){ sendFirebase("RADIO_BACK"); }
-function forward(){ sendFirebase("RADIO_FORWARD"); }
-function source(){ sendFirebase("RADIO_SOURCE"); }
-function select(){ sendFirebase("RADIO_SELECT"); }
-function prev_song(){ sendFirebase("RADIO_BACK"); }
-function next_song(){ sendFirebase("RADIO_FORWARD"); }
-function vol_down(){ sendFirebase("RADIO_BACK"); }
-function vol_up(){ sendFirebase("RADIO_FORWARD"); }
+    aktifkanWindowButton(".arrow-right-bottom-top", setButton7);
+    aktifkanWindowButton(".arrow-right-bottom", setButton8);
+});
