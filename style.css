@@ -1080,7 +1080,7 @@ html{
     border: none;
     border-radius: 50%;
 
-    background: transparent;
+    background: green;
 
     z-index: 10000;
 }
@@ -1101,7 +1101,7 @@ html{
     border: none;
     border-radius: 50%;
 
-    background: transparent;
+    background: green;
 
     z-index: 10000;
 }
@@ -1164,7 +1164,7 @@ html{
     border: none;
     border-radius: 50%;
 
-    background: transparent;
+    background: rebeccapurple;
 
     z-index: 10000;
 }

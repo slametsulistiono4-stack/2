@@ -1,4 +1,4 @@
-const endpoint = "http://192.168.1.3";
+const endpoint = "http://192.168.1.9";
 
 
 function setLampRight() {
@@ -729,58 +729,456 @@ function sendCommand(command){
     });
 }
 
+
+
+/* =================================================
+   TAMBAHAN SMART CAR CONTROL ESP32
+   TAMBAHKAN DI PALING BAWAH FILE JS
+================================================= */
+
+function kirimESP(path){
+    fetch(endpoint + path, {
+        method: "POST"
+    })
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log("ESP32 ERROR:", error));
+}
+
 /* =========================
-   JENDELA KANAN DEPAN
+   LAMP CONTROL
 ========================= */
 
-function setButton1(){
+let tahanKanan = false;
+let tahanKiri = false;
+let timerKanan;
+let timerKiri;
 
-    sendCommand("WINDOW_RIGHT_FRONT_ON");
+function lampRightHoldStart(){
+    tahanKanan = false;
+
+    timerKanan = setTimeout(function(){
+        tahanKanan = true;
+        kirimESP("/lamprightbright");
+    }, 600);
+}
+
+function lampRightHoldEnd(){
+    clearTimeout(timerKanan);
+
+    if(tahanKanan){
+        kirimESP("/lamprightnormal");
+    }
+}
+
+function lampLeftHoldStart(){
+    tahanKiri = false;
+
+    timerKiri = setTimeout(function(){
+        tahanKiri = true;
+        kirimESP("/lampleftbright");
+    }, 600);
+}
+
+function lampLeftHoldEnd(){
+    clearTimeout(timerKiri);
+
+    if(tahanKiri){
+        kirimESP("/lampleftnormal");
+    }
+}
+
+/* MODIFIKASI fungsi lama, nama tetap sama */
+const setLampRightLama = setLampRight;
+
+setLampRight = function(){
+
+    if(tahanKanan){
+        tahanKanan = false;
+        return;
+    }
+
+    kirimESP("/lampright");
+
+    if (ledRightImage.src.includes("led-on.png")) {
+        ledKanan.style.backgroundColor = "";
+        ledRightImage.src = "./asset/led-off.png";
+        ledKanan.parentElement.style.backgroundColor = "";
+        ledKanan.innerText = "TURN ON";
+    } else {
+        ledKanan.style.backgroundColor = "#0026ff";
+        ledRightImage.src = "./asset/led-on.png";
+        ledKanan.parentElement.style.backgroundColor = "white";
+        ledKanan.innerText = "TURN OFF";
+    }
+}
+
+const setLampLeftLama = setLampLeft;
+
+setLampLeft = function(){
+
+    if(tahanKiri){
+        tahanKiri = false;
+        return;
+    }
+
+    kirimESP("/lampleft");
+
+    if (ledLeftImage.src.includes("led-on.png")) {
+        ledKiri.style.backgroundColor = "";
+        ledLeftImage.src = "./asset/led-off.png";
+        ledKiri.parentElement.style.backgroundColor = "";
+        ledKiri.innerText = "TURN ON";
+    } else {
+        ledKiri.style.backgroundColor = "#0026ff";
+        ledLeftImage.src = "./asset/led-on.png";
+        ledKiri.parentElement.style.backgroundColor = "white";
+        ledKiri.innerText = "TURN OFF";
+    }
+}
+
+
+
+/* =========================
+   RADIO CONTROL
+========================= */
+function radioForward(){
+    kontrolButton("radioforward", "Radio forward");
+}
+
+function radioBack(){
+    kontrolButton("radioback", "Radio back");
+}
+
+function radioSource(){
+    kontrolButton("radiosource", "Radio source");
+}
+
+function radioSelect(){
+    kontrolButton("radioselect", "Radio select");
+}
+
+function radioPrevSong(){
+    kontrolButton("radioprev", "Radio prev song");
+}
+
+function radioNextSong(){
+    kontrolButton("radionext", "Radio next song");
+}
+
+function radioVolDown(){
+    kontrolButton("radiovoldown", "Radio volume down");
+}
+
+function radioVolUp(){
+    kontrolButton("radiovolup", "Radio volume up");
+}
+
+/* =========================
+   VOICE CONTROL
+========================= */
+
+function prosesPerintah(command){
+
+    command = command.toLowerCase();
+
+    if(command.includes("lampu 1 menyala")){
+        kirimESP("/d13on");
+    }
+    else if(command.includes("lampu 1 mati")){
+        kirimESP("/d13off");
+    }
+    else if(command.includes("lampu 2 menyala")){
+        kirimESP("/d12on");
+    }
+    else if(command.includes("lampu 2 mati")){
+        kirimESP("/d12off");
+    }
+
+    else if(command.includes("jendela pojok kanan atas menyala")){
+        setButton1();
+    }
+    else if(command.includes("jendela pojok kanan atas mati")){
+        setButton2();
+    }
+
+    else if(command.includes("jendela pojok kiri atas menyala")){
+        setButton3();
+    }
+    else if(command.includes("jendela pojok kiri atas mati")){
+        setButton4();
+    }
+
+    else if(command.includes("jendela pojok kiri bawah menyala")){
+        setButton5();
+    }
+    else if(command.includes("jendela pojok kiri bawah mati")){
+        setButton6();
+    }
+
+    else if(command.includes("jendela pojok kanan bawah menyala")){
+        setButton7();
+    }
+    else if(command.includes("jendela pojok kanan bawah mati")){
+        setButton8();
+    }
+
+    else if(command.includes("forward")){
+        radioForward();
+    }
+    else if(command.includes("back")){
+        radioBack();
+    }
+    else if(command.includes("source")){
+        radioSource();
+    }
+    else if(command.includes("select")){
+        radioSelect();
+    }
+    else if(command.includes("prev song")){
+        radioPrevSong();
+    }
+    else if(command.includes("next song")){
+        radioNextSong();
+    }
+    else if(command.includes("vol down")){
+        radioVolDown();
+    }
+    else if(command.includes("vol up")){
+        radioVolUp();
+    }
+    else{
+        voiceText.innerText = "Perintah tidak dikenal";
+    }
+}
+
+/* =========================
+   WINDOW CONTROL - PAKAI LOGIKA ON/OFF ESP32
+========================= */
+
+function kontrolButton(namaButton, namaJendela){
+    fetch(endpoint + "/" + namaButton, {
+        method: "POST"
+    })
+    .then(response => response.text())
+    .then(result => {
+        console.log(namaJendela + " : " + result);
+    })
+    .catch(error => {
+        console.log("ESP32 ERROR:", error);
+    });
+}
+
+function setButton1(){
+    kontrolButton("button1", "Jendela pojok kanan atas");
 }
 
 function setButton2(){
-
-    sendCommand("WINDOW_RIGHT_FRONT_OFF");
+    kontrolButton("button2", "Jendela pojok kanan atas");
 }
 
-/* =========================
-   JENDELA KIRI DEPAN
-========================= */
-
 function setButton3(){
-
-    sendCommand("WINDOW_LEFT_FRONT_ON");
+    kontrolButton("button3", "Jendela pojok kiri atas");
 }
 
 function setButton4(){
-
-    sendCommand("WINDOW_LEFT_FRONT_OFF");
+    kontrolButton("button4", "Jendela pojok kiri atas");
 }
 
-/* =========================
-   JENDELA KIRI BELAKANG
-========================= */
-
 function setButton5(){
-
-    sendCommand("WINDOW_LEFT_BACK_ON");
+    kontrolButton("button5", "Jendela pojok kiri bawah");
 }
 
 function setButton6(){
-
-    sendCommand("WINDOW_LEFT_BACK_OFF");
+    kontrolButton("button6", "Jendela pojok kiri bawah");
 }
 
-/* =========================
-   JENDELA KANAN BELAKANG
-========================= */
-
 function setButton7(){
-
-    sendCommand("WINDOW_RIGHT_BACK_ON");
+    kontrolButton("button7", "Jendela pojok kanan bawah");
 }
 
 function setButton8(){
-
-    sendCommand("WINDOW_RIGHT_BACK_OFF");
+    kontrolButton("button8", "Jendela pojok kanan bawah");
 }
+/* =========================
+   RADIO CONTROL SESUAI HTML
+========================= */
+
+function back(){
+    kontrolButton("radioback", "Radio back");
+}
+
+function forward(){
+    kontrolButton("radioforward", "Radio forward");
+}
+
+function source(){
+    kontrolButton("radiosource", "Radio source");
+}
+
+function select(){
+    kontrolButton("radioselect", "Radio select");
+}
+
+function prev_song(){
+    kontrolButton("radioprev", "Radio prev song");
+}
+
+function next_song(){
+    kontrolButton("radionext", "Radio next song");
+}
+
+function vol_down(){
+    kontrolButton("radiovoldown", "Radio volume down");
+}
+
+function vol_up(){
+    kontrolButton("radiovolup", "Radio volume up");
+}
+
+/* =========================
+   FIX WINDOW CONTROL TANPA UBAH CSS
+========================= */
+
+function aktifkanWindowButton(selector, fungsi){
+    const area = document.querySelector(selector);
+
+    if(area){
+        area.onclick = function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            fungsi();
+        };
+
+        area.ontouchstart = function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            fungsi();
+        };
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    aktifkanWindowButton(".arrow-right-top", setButton1);
+    aktifkanWindowButton(".arrow-right-middle", setButton2);
+
+    aktifkanWindowButton(".arrow-left-top", setButton3);
+    aktifkanWindowButton(".arrow-left-middle", setButton4);
+
+    aktifkanWindowButton(".arrow-left-bottom-top", setButton5);
+    aktifkanWindowButton(".arrow-left-bottom", setButton6);
+
+    aktifkanWindowButton(".arrow-right-bottom-top", setButton7);
+    aktifkanWindowButton(".arrow-right-bottom", setButton8);
+
+});
+
+const firebaseCommandURL =
+"https://smart-cars-a9536-default-rtdb.asia-southeast1.firebasedatabase.app/smartcar/command.json";
+
+function sendFirebase(command){
+    fetch(firebaseCommandURL, {
+        method: "PUT",
+        body: JSON.stringify(command)
+    })
+    .then(res => res.json())
+    .then(data => console.log("Firebase:", command))
+    .catch(err => console.log("Firebase error:", err));
+}
+
+/* WINDOW CONTROL */
+function setButton1(){
+    sendFirebase("BUTTON1");
+}
+
+function setButton2(){
+    sendFirebase("BUTTON2");
+}
+
+function setButton3(){
+    sendFirebase("BUTTON3");
+}
+
+function setButton4(){
+    sendFirebase("BUTTON4");
+}
+
+function setButton5(){
+    sendFirebase("BUTTON5");
+}
+
+function setButton6(){
+    sendFirebase("BUTTON6");
+}
+
+function setButton7(){
+    sendFirebase("BUTTON7");
+}
+
+function setButton8(){
+    sendFirebase("BUTTON8");
+}
+
+/* RADIO CONTROL */
+function back(){
+    sendFirebase("RADIO_BACK");
+}
+
+function forward(){
+    sendFirebase("RADIO_FORWARD");
+}
+
+function source(){
+    sendFirebase("RADIO_SOURCE");
+}
+
+function select(){
+    sendFirebase("RADIO_SELECT");
+}
+
+function prev_song(){
+    sendFirebase("RADIO_PREV");
+}
+
+function next_song(){
+    sendFirebase("RADIO_NEXT");
+}
+
+function vol_down(){
+    sendFirebase("RADIO_VOL_DOWN");
+}
+
+function vol_up(){
+    sendFirebase("RADIO_VOL_UP");
+}
+
+const firebaseURL =
+"https://smart-cars-a9536-default-rtdb.asia-southeast1.firebasedatabase.app/smartcar/command.json";
+
+function sendFirebase(command){
+    fetch(firebaseURL, {
+        method: "PUT",
+        body: JSON.stringify(command)
+    })
+    .then(() => console.log("Kirim:", command))
+    .catch(error => console.log("Firebase error:", error));
+}
+
+function setButton1(){ sendFirebase("BUTTON1"); }
+function setButton2(){ sendFirebase("BUTTON2"); }
+function setButton3(){ sendFirebase("BUTTON3"); }
+function setButton4(){ sendFirebase("BUTTON4"); }
+function setButton5(){ sendFirebase("BUTTON5"); }
+function setButton6(){ sendFirebase("BUTTON6"); }
+function setButton7(){ sendFirebase("BUTTON7"); }
+function setButton8(){ sendFirebase("BUTTON8"); }
+
+function back(){ sendFirebase("RADIO_BACK"); }
+function forward(){ sendFirebase("RADIO_FORWARD"); }
+function source(){ sendFirebase("RADIO_SOURCE"); }
+function select(){ sendFirebase("RADIO_SELECT"); }
+function prev_song(){ sendFirebase("RADIO_BACK"); }
+function next_song(){ sendFirebase("RADIO_FORWARD"); }
+function vol_down(){ sendFirebase("RADIO_BACK"); }
+function vol_up(){ sendFirebase("RADIO_FORWARD"); }
