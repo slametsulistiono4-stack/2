@@ -1101,7 +1101,7 @@ function kirimCommand(pathLocal, commandFirebase){
 
         fetch(FIREBASE_COMMAND_URL, {
             method: "PUT",
-            body: JSON.stringify(commandFirebase)
+            body: JSON.stringify(commandFirebase + "|" + Date.now())
         })
         .then(response => response.json())
         .then(result => console.log("FIREBASE:", commandFirebase))
