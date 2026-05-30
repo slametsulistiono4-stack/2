@@ -482,11 +482,11 @@ if (micBtn && voiceText && commandIcon && "webkitSpeechRecognition" in window) {
     };
 
     recognition.onresult = function (event) {
-        const command = event.results[0][0].transcript.toLowerCase();
-        voiceText.innerText = "Perintah: " + command;
+    const command = event.results[0][0].transcript.toLowerCase();
+    voiceText.innerText = "Perintah: " + command;
 
-        prosesPerintah(command);
-    };
+    prosesPerintah(command);
+};
 
     recognition.onerror = function () {
         voiceText.innerText = "Suara tidak terbaca, coba lagi";
@@ -882,19 +882,18 @@ function prosesPerintah(command){
 
     command = command.toLowerCase();
 
-    if(command.includes("lampu 1 menyala")){
-        kirimESP("/d13on");
-    }
-    else if(command.includes("lampu 1 mati")){
-        kirimESP("/d13off");
-    }
-    else if(command.includes("lampu 2 menyala")){
-        kirimESP("/d12on");
-    }
-    else if(command.includes("lampu 2 mati")){
-        kirimESP("/d12off");
-    }
-
+    if(command.includes("lampu kanan menyala")){
+    setButton1();
+}
+else if(command.includes("lampu kanan mati")){
+    setButton2();
+}
+else if(command.includes("lampu kiri menyala")){
+    setButton3();
+}
+else if(command.includes("lampu kiri mati")){
+    setButton4();
+}
     else if(command.includes("jendela pojok kanan atas menyala")){
         setButton1();
     }
