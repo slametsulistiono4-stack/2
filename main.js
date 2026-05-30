@@ -882,17 +882,17 @@ function prosesPerintah(command){
 
     command = command.toLowerCase();
 
-    if(command.includes("lampu kanan menyala")){
-    setButton1();
+  if(command.includes("lampu kanan menyala")){
+    kirimCommand("/button1", "BUTTON1");
 }
 else if(command.includes("lampu kanan mati")){
-    setButton2();
+    kirimCommand("/button2", "BUTTON2");
 }
 else if(command.includes("lampu kiri menyala")){
-    setButton3();
+    kirimCommand("/button3", "BUTTON3");
 }
 else if(command.includes("lampu kiri mati")){
-    setButton4();
+    kirimCommand("/button4", "BUTTON4");
 }
     else if(command.includes("jendela pojok kanan atas menyala")){
         setButton1();
@@ -923,17 +923,18 @@ else if(command.includes("lampu kiri mati")){
     }
 
     else if(command.includes("forward")){
-        radioForward();
-    }
-    else if(command.includes("back")){
-        radioBack();
-    }
-    else if(command.includes("source")){
-        radioSource();
-    }
-    else if(command.includes("select")){
-        radioSelect();
-    }
+    kirimCommand("/radioforward", "RADIO_FORWARD");
+}
+else if(command.includes("back")){
+    kirimCommand("/radioback", "RADIO_BACK");
+}
+else if(command.includes("source")){
+    kirimCommand("/radiosource", "RADIO_SOURCE");
+}
+else if(command.includes("select")){
+    kirimCommand("/radioselect", "RADIO_SELECT");
+}
+    
     else if(command.includes("prev song")){
         radioPrevSong();
     }
