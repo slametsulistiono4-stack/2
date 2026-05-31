@@ -951,7 +951,13 @@ else if(command.includes("lampu kiri mati")){
     else if(command.includes("vol up") || command.includes("volume up") || command.includes("volume naik")){
         kirimCommand("/radiovolup", "RADIO_FORWARD");
     }
-
+    else if(command.includes("mati") || command.includes("matikan") || command.includes("non aktif")){
+    kirimCommand("/button4", "BUTTON4", "/button2", "BUTTON2");
+    setButton2();
+    setButton4();
+    setButton6();
+    setButton8();
+    } 
     else{
         voiceText.innerText = "Perintah tidak dikenal: " + command;
         kirimVoiceStatus("PERINTAH TIDAK DIKENAL: " + command);
@@ -1228,5 +1234,41 @@ function resetSaatPindahHalaman(){
     }
 }
 
-window.addEventListener("pagehide", resetSaatPindahHalaman);
-window.addEventListener("beforeunload", resetSaatPindahHalaman);
+function kirimResetAll(){
+    if(CONTROL_MODE === "local"){
+        return fetch(endpoint + "/reset-all", {
+            method: "POST"
+        });
+    } else {
+        return fetch(FIREBASE_COMMAND_URL, {
+            method: "PUT",
+            body: JSON.stringify("RESET_ALL|" + Date.now())
+        });
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const menuLinks = document.querySelectorAll(".bottombar a");
+
+    menuLinks.forEach(function(link){
+
+        link.addEventListener("click", function(e){
+
+            e.preventDefault();
+
+            const tujuan = link.href;
+
+            kirimResetAll()
+            .finally(function(){
+                setTimeout(function(){
+                    window.location.href = tujuan;
+                }, 300);
+            });
+
+        });
+
+    });
+
+});
+
