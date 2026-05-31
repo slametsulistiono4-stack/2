@@ -953,10 +953,6 @@ else if(command.includes("lampu kiri mati")){
     }
     else if(command.includes("mati") || command.includes("matikan") || command.includes("non aktif")){
     kirimCommand("/button4", "BUTTON4", "/button2", "BUTTON2");
-    setButton2();
-    setButton4();
-    setButton6();
-    setButton8();
     } 
     else{
         voiceText.innerText = "Perintah tidak dikenal: " + command;
