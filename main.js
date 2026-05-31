@@ -1172,3 +1172,36 @@ document.addEventListener("DOMContentLoaded", function(){
     aktifkanWindowButton(".arrow-right-bottom-top", setButton7);
     aktifkanWindowButton(".arrow-right-bottom", setButton8);
 });
+
+function kirimVoiceStatus(status){
+    fetch("https://smart-cars-a9536-default-rtdb.asia-southeast1.firebasedatabase.app/smartcar/voiceStatus.json", {
+        method: "PUT",
+        body: JSON.stringify(status)
+    });
+}
+
+recognition.onstart = function () {
+    isRecording = true;
+    micBtn.classList.add("recording");
+    voiceText.innerText = "Mendengarkan perintah...";
+    kirimVoiceStatus("VOICE AKTIF");
+};
+
+recognition.onresult = function (event) {
+    const command = event.results[0][0].transcript.toLowerCase();
+    voiceText.innerText = "Perintah: " + command;
+
+    kirimVoiceStatus("TERDETEKSI: " + command);
+    prosesPerintah(command);
+};
+
+recognition.onerror = function (event) {
+    voiceText.innerText = "Error voice: " + event.error;
+    kirimVoiceStatus("ERROR: " + event.error);
+    stopMic();
+};
+
+recognition.onend = function () {
+    kirimVoiceStatus("VOICE SELESAI");
+    stopMic();
+};
