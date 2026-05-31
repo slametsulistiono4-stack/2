@@ -881,6 +881,11 @@ function radioVolUp(){
 function prosesPerintah(command){
 
     command = command.toLowerCase();
+    command = command.replace(/-/g, " ");
+    command = command.trim();
+
+    console.log("VOICE TERBACA:", command);
+
 
   if(command.includes("lampu kanan menyala")){
     kirimCommand("/button1", "BUTTON1");
@@ -922,36 +927,36 @@ else if(command.includes("lampu kiri mati")){
         setButton8();
     }
 
-    else if(command.includes("forward")){
-    kirimCommand("/radioforward", "RADIO_FORWARD");
-}
-else if(command.includes("back")){
-    kirimCommand("/radioback", "RADIO_BACK");
-}
-else if(command.includes("source")){
-    kirimCommand("/radiosource", "RADIO_SOURCE");
-}
-else if(command.includes("select")){
-    kirimCommand("/radioselect", "RADIO_SELECT");
-}
-    
-    else if(command.includes("prev song")){
-        radioPrevSong();
+    else if(command.includes("forward") || command.includes("for ward")){
+        kirimCommand("/radioforward", "RADIO_FORWARD");
     }
-    else if(command.includes("next song")){
-        radioNextSong();
+    else if(command.includes("next song") || command.includes("next") || command.includes("lagu selanjutnya")){
+        kirimCommand("/radionext", "RADIO_FORWARD");
     }
-    else if(command.includes("vol down")){
-        radioVolDown();
+    else if(command.includes("back") || command.includes("bek") || command.includes("kembali")){
+        kirimCommand("/radioback", "RADIO_BACK");
     }
-    else if(command.includes("vol up")){
-        radioVolUp();
+    else if(command.includes("prev song") || command.includes("previous") || command.includes("lagu sebelumnya")){
+        kirimCommand("/radioprev", "RADIO_BACK");
     }
-    else{
-        voiceText.innerText = "Perintah tidak dikenal";
+    else if(command.includes("source") || command.includes("sumber")){
+        kirimCommand("/radiosource", "RADIO_SOURCE");
     }
-}
+    else if(command.includes("select") || command.includes("pilih")){
+        kirimCommand("/radioselect", "RADIO_SELECT");
+    }
+    else if(command.includes("vol down") || command.includes("volume down") || command.includes("volume turun")){
+        kirimCommand("/radiovoldown", "RADIO_BACK");
+    }
+    else if(command.includes("vol up") || command.includes("volume up") || command.includes("volume naik")){
+        kirimCommand("/radiovolup", "RADIO_FORWARD");
+    }
 
+    else{
+        voiceText.innerText = "Perintah tidak dikenal: " + command;
+        kirimVoiceStatus("PERINTAH TIDAK DIKENAL: " + command);
+    }
+}
 /* =========================
    WINDOW CONTROL - PAKAI LOGIKA ON/OFF ESP32
 ========================= */
