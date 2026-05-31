@@ -933,7 +933,7 @@ else if(command.includes("lampu kiri mati")){
     else if(command.includes("next song") || command.includes("next") || command.includes("lagu selanjutnya")){
         kirimCommand("/radionext", "RADIO_FORWARD");
     }
-    else if(command.includes("back") || command.includes("bek") || command.includes("kembali")){
+    else if(command.includes("back") || command.includes("bek") || command.includes("kembali") || command.includes("bak")){
         kirimCommand("/radioback", "RADIO_BACK");
     }
     else if(command.includes("prev song") || command.includes("previous") || command.includes("lagu sebelumnya")){
