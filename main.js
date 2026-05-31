@@ -952,8 +952,24 @@ else if(command.includes("lampu kiri mati")){
         kirimCommand("/radiovolup", "RADIO_FORWARD");
     }
     else if(command.includes("mati") || command.includes("matikan") || command.includes("non aktif")){
-    kirimCommand("/button4", "BUTTON4", "/button2", "BUTTON2");
-    } 
+    kirimCommand("/button4", "BUTTON4");
+    } else if(command.includes("mati") || command.includes("matikan") || command.includes("non aktif")){
+    kirimCommand("/button2", "BUTTON2");
+    }else if(command.includes("mati") || command.includes("matikan") || command.includes("non aktif")){
+    kirimCommand("/button6", "BUTTON6");
+    }
+    else if(command.includes("mati") || command.includes("matikan") || command.includes("non aktif")){
+    kirimCommand("/button8", "BUTTON8");
+    }
+    else if(command.includes("mati") || command.includes("matikan") || command.includes("non aktif")){
+    setButton2();
+    }else if(command.includes("mati") || command.includes("matikan") || command.includes("non aktif")){
+    setButton4();
+    }else if(command.includes("mati") || command.includes("matikan") || command.includes("non aktif")){
+    setButton6();
+    }else if(command.includes("mati") || command.includes("matikan") || command.includes("non aktif")){
+    setButton8();
+    }
     else{
         voiceText.innerText = "Perintah tidak dikenal: " + command;
         kirimVoiceStatus("PERINTAH TIDAK DIKENAL: " + command);
