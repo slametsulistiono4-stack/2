@@ -899,35 +899,35 @@ else if(command.includes("lampu kiri menyala")){
 else if(command.includes("lampu kiri mati")){
     kirimCommand("/button4", "BUTTON4");
 }
-    else if(command.includes("jendela pojok kanan atas menyala")){
+    else if(command.includes("jendela pojok kanan atas menyala") || command.includes("jendela 1 naik")){
         setButton1();
     }
-    else if(command.includes("jendela pojok kanan atas mati")){
+    else if(command.includes("jendela pojok kanan atas mati") || command.includes("jendela 1 turun")){
         setButton2();
     }
 
-    else if(command.includes("jendela pojok kiri atas menyala")){
+    else if(command.includes("jendela pojok kiri atas menyala") || command.includes("jendela 2 naik")){
         setButton3();
     }
-    else if(command.includes("jendela pojok kiri atas mati")){
+    else if(command.includes("jendela pojok kiri atas mati") || command.includes("jendela 2 turun")){
         setButton4();
     }
 
-    else if(command.includes("jendela pojok kiri bawah menyala")){
+    else if(command.includes("jendela pojok kiri bawah menyala") || command.includes("jendela 3 naik")){
         setButton5();
     }
-    else if(command.includes("jendela pojok kiri bawah mati")){
+    else if(command.includes("jendela pojok kiri bawah mati") || command.includes("jendela 3 turun")){
         setButton6();
     }
 
-    else if(command.includes("jendela pojok kanan bawah menyala")){
+    else if(command.includes("jendela pojok kanan bawah menyala") || command.includes("jendela 4 naik")){
         setButton7();
     }
-    else if(command.includes("jendela pojok kanan bawah mati")){
+    else if(command.includes("jendela pojok kanan bawah mati") || command.includes("jendela 4 turun")){
         setButton8();
     }
 
-    else if(command.includes("forward") || command.includes("for ward")){
+    else if(command.includes("forward") || command.includes("for ward") || command.includes("selanjutnya")){
         kirimCommand("/radioforward", "RADIO_FORWARD");
     }
     else if(command.includes("next song") || command.includes("next") || command.includes("lagu selanjutnya")){
