@@ -956,6 +956,7 @@ else if(command.includes("lampu kiri mati")){
         voiceText.innerText = "Perintah tidak dikenal: " + command;
         kirimVoiceStatus("PERINTAH TIDAK DIKENAL: " + command);
     }
+    
 }
 /* =========================
    WINDOW CONTROL - PAKAI LOGIKA ON/OFF ESP32
@@ -1210,3 +1211,22 @@ recognition.onend = function () {
     kirimVoiceStatus("VOICE SELESAI");
     stopMic();
 };
+
+function resetSaatPindahHalaman(){
+
+    if(CONTROL_MODE === "local"){
+        fetch(endpoint + "/reset-all", {
+            method: "POST",
+            keepalive: true
+        });
+    } else {
+        fetch(FIREBASE_COMMAND_URL, {
+            method: "PUT",
+            body: JSON.stringify("RESET_ALL|" + Date.now()),
+            keepalive: true
+        });
+    }
+}
+
+window.addEventListener("pagehide", resetSaatPindahHalaman);
+window.addEventListener("beforeunload", resetSaatPindahHalaman);
