@@ -1,4 +1,4 @@
-const endpoint = "http://192.168.1.9";
+const endpoint = "http://192.168.1.10";
 
 
 function setLampRight() {
@@ -1284,3 +1284,151 @@ document.addEventListener("DOMContentLoaded", function(){
 
 });
 
+function resetSekali(){
+    if(CONTROL_MODE === "local"){
+        return fetch(endpoint + "/reset-all", {
+            method: "POST"
+        });
+    } else {
+        return fetch(FIREBASE_COMMAND_URL, {
+            method: "PUT",
+            body: JSON.stringify("RESET_ALL|" + Date.now())
+        });
+    }
+}
+
+function resetSekali(){
+    if(CONTROL_MODE === "local"){
+        return fetch(endpoint + "/reset-all", {
+            method: "POST"
+        });
+    } else {
+        return fetch(FIREBASE_COMMAND_URL, {
+            method: "PUT",
+            body: JSON.stringify("RESET_ALL|" + Date.now())
+        });
+    }
+}
+
+function resetLoop(jumlah = 5, jeda = 200){
+    let hitung = 0;
+
+    const timer = setInterval(function(){
+
+        resetSekali();
+        console.log("RESET KE-" + (hitung + 1));
+
+        hitung++;
+
+        if(hitung >= jumlah){
+            clearInterval(timer);
+        }
+
+    }, jeda);
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    document.querySelectorAll(".bottombar a").forEach(function(link){
+
+        link.addEventListener("click", function(e){
+
+            const tujuan = link.href;
+
+            if(!tujuan || tujuan === "#") return;
+
+            e.preventDefault();
+
+            resetLoop(5, 200);
+
+            setTimeout(function(){
+                window.location.href = tujuan;
+            }, 1200);
+        });
+    });
+});
+
+let resetTimer = null;
+
+function mulaiResetLoop(){
+
+    if(resetTimer) return;
+
+    resetTimer = setInterval(function(){
+
+        if(CONTROL_MODE === "local"){
+
+            fetch(endpoint + "/reset-all", {
+                method: "POST"
+            });
+
+        } else {
+
+            fetch(FIREBASE_COMMAND_URL, {
+                method: "PUT",
+                body: JSON.stringify("RESET_ALL|" + Date.now())
+            });
+
+        }
+
+        console.log("RESET LOOP");
+
+    }, 100);
+
+}
+
+function berhentiResetLoop(){
+
+    if(resetTimer){
+        clearInterval(resetTimer);
+        resetTimer = null;
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    document.querySelectorAll(".bottombar a").forEach(function(link){
+
+        let tujuan = "";
+
+        link.addEventListener("mousedown", function(e){
+
+            e.preventDefault();
+
+            tujuan = link.href;
+
+            mulaiResetLoop();
+        });
+
+        link.addEventListener("mouseup", function(){
+
+            berhentiResetLoop();
+
+            if(tujuan){
+                window.location.href = tujuan;
+            }
+        });
+
+        link.addEventListener("mouseleave", function(){
+            berhentiResetLoop();
+        });
+
+        link.addEventListener("touchstart", function(e){
+
+            e.preventDefault();
+
+            tujuan = link.href;
+
+            mulaiResetLoop();
+        });
+
+        link.addEventListener("touchend", function(){
+
+            berhentiResetLoop();
+
+            if(tujuan){
+                window.location.href = tujuan;
+            }
+        });
+    });
+});
