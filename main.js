@@ -1433,27 +1433,28 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 });
 
-async function goPage(page) {
-    try {
-        const res = await fetch(endpoint + "/reset-all", {
-            method: "POST",
-            mode: "cors",
-            cache: "no-store"
-        });
+document.querySelectorAll(".nav-reset").forEach(link => {
 
-        const text = await res.text();
-        console.log("RESET ESP32:", text);
+    link.addEventListener("click", async function(e) {
+        e.preventDefault();
 
-    } catch (e) {
-        console.log("RESET GAGAL:", e);
-        alert(
-            "Reset ESP32 gagal.\n" +
-            "Kalau web dibuka dari GitHub HTTPS, browser bisa memblokir akses ke HTTP ESP32.\n\n" +
-            "Gunakan localhost, atau buka web dari server HTTP lokal, atau host halaman langsung di ESP32."
-        );
-    }
+        const targetPage = this.getAttribute("href");
 
-    setTimeout(() => {
-        window.location.href = page;
-    }, 300);
-}
+        try {
+            await fetch(endpoint + "/reset-all", {
+                method: "POST",
+                cache: "no-store"
+            });
+
+            console.log("RESET BERHASIL");
+
+        } catch (err) {
+            console.log("RESET GAGAL", err);
+        }
+
+        setTimeout(() => {
+            window.location.href = targetPage;
+        }, 500);
+    });
+
+});
