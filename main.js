@@ -1432,3 +1432,28 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     });
 });
+
+async function goPage(page) {
+    try {
+        const res = await fetch(endpoint + "/reset-all", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-store"
+        });
+
+        const text = await res.text();
+        console.log("RESET ESP32:", text);
+
+    } catch (e) {
+        console.log("RESET GAGAL:", e);
+        alert(
+            "Reset ESP32 gagal.\n" +
+            "Kalau web dibuka dari GitHub HTTPS, browser bisa memblokir akses ke HTTP ESP32.\n\n" +
+            "Gunakan localhost, atau buka web dari server HTTP lokal, atau host halaman langsung di ESP32."
+        );
+    }
+
+    setTimeout(() => {
+        window.location.href = page;
+    }, 300);
+}
