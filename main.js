@@ -1,5 +1,6 @@
-const endpoint = "http://192.168.1.10";
-
+const endpoint = "http://192.168.1.19";
+const FIREBASE_STATUS_URL =
+"https://smart-cars-a9536-default-rtdb.asia-southeast1.firebasedatabase.app/smartcar/status.json";
 
 function setLampRight() {
     fetch(endpoint + "/lampright", {
@@ -47,48 +48,44 @@ function setLampLeft() {
 
 function updateData() {
 
-    const coolant = randomRange(70, 105);
-    const map = randomRange(20, 110);
-    const rpm = randomRange(1000, 6000);
-    const speed = randomRange(0, 180);
-    const iat = randomRange(10, 50);
-    const maf = randomRange(2, 30);
-    const fuel = randomRange(0, 100);
-    const led = randomRange(0, 100);
+    const url =
+        CONTROL_MODE === "local"
+        ? endpoint + "/status-data"
+        : FIREBASE_STATUS_URL;
 
-    // helper aman
-    function setText(id, value) {
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
 
-        const el = document.getElementById(id);
-
-        if (el) {
-            el.innerText = value;
+        function setText(id, value) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.innerText = value;
+            }
         }
-    }
 
-    // LIVE DATA
-    setText("coolant", coolant);
-    setText("map", map);
-    setText("rpm", rpm);
-    setText("speed", speed);
-    setText("iat", iat);
-    setText("maf", maf);
-    setText("led", led);
+        setText("coolant", data.coolant);
+        setText("map", data.map);
+        setText("rpm", data.rpm);
+        setText("speed", data.speed);
+        setText("iat", data.iat);
+        setText("maf", data.maf);
+        setText("fuel", data.fuel);
+        setText("led", data.led);
 
-    // fuel
-    setText("fuel", fuel);
+        const fuelBar = document.getElementById("fuelBar");
 
-    // fuel bar
-    const fuelBar = document.getElementById("fuelBar");
+        if (fuelBar) {
+            fuelBar.style.width = data.fuel + "%";
+        }
 
-    if (fuelBar) {
-        fuelBar.style.width = fuel + "%";
-    }
-
-    // speedometer
-    if (typeof updateSpeedometer === "function") {
-        updateSpeedometer(speed);
-    }
+        if (typeof updateSpeedometer === "function") {
+            updateSpeedometer(data.speed);
+        }
+    })
+    .catch(error => {
+        console.log("Gagal ambil data status:", error);
+    });
 }
 
 function randomRange(min, max) {
@@ -1246,215 +1243,23 @@ function resetSaatPindahHalaman(){
     }
 }
 
-function kirimResetAll(){
-    if(CONTROL_MODE === "local"){
-        return fetch(endpoint + "/reset-all", {
-            method: "POST"
-        });
-    } else {
-        return fetch(FIREBASE_COMMAND_URL, {
-            method: "PUT",
-            body: JSON.stringify("RESET_ALL|" + Date.now())
-        });
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function(){
-
-    const menuLinks = document.querySelectorAll(".bottombar a");
-
-    menuLinks.forEach(function(link){
-
-        link.addEventListener("click", function(e){
-
-            e.preventDefault();
-
-            const tujuan = link.href;
-
-            kirimResetAll()
-            .finally(function(){
-                setTimeout(function(){
-                    window.location.href = tujuan;
-                }, 300);
-            });
-
-        });
-
-    });
-
-});
 
 function resetSekali(){
     if(CONTROL_MODE === "local"){
         return fetch(endpoint + "/reset-all", {
             method: "POST"
-        });
+        }).catch(error => console.log("RESET LOCAL GAGAL:", error));
     } else {
         return fetch(FIREBASE_COMMAND_URL, {
             method: "PUT",
             body: JSON.stringify("RESET_ALL|" + Date.now())
-        });
+        }).catch(error => console.log("RESET FIREBASE GAGAL:", error));
     }
 }
 
-function resetSekali(){
-    if(CONTROL_MODE === "local"){
-        return fetch(endpoint + "/reset-all", {
-            method: "POST"
-        });
-    } else {
-        return fetch(FIREBASE_COMMAND_URL, {
-            method: "PUT",
-            body: JSON.stringify("RESET_ALL|" + Date.now())
-        });
-    }
-}
-
-function resetLoop(jumlah = 5, jeda = 200){
-    let hitung = 0;
-
-    const timer = setInterval(function(){
-
-        resetSekali();
-        console.log("RESET KE-" + (hitung + 1));
-
-        hitung++;
-
-        if(hitung >= jumlah){
-            clearInterval(timer);
-        }
-
-    }, jeda);
-}
-
-document.addEventListener("DOMContentLoaded", function(){
-
-    document.querySelectorAll(".bottombar a").forEach(function(link){
-
-        link.addEventListener("click", function(e){
-
-            const tujuan = link.href;
-
-            if(!tujuan || tujuan === "#") return;
-
-            e.preventDefault();
-
-            resetLoop(5, 200);
-
-            setTimeout(function(){
-                window.location.href = tujuan;
-            }, 1200);
-        });
+function goPage(page){
+    resetSekali()
+    .finally(() => {
+        window.location.href = page;
     });
-});
-
-let resetTimer = null;
-
-function mulaiResetLoop(){
-
-    if(resetTimer) return;
-
-    resetTimer = setInterval(function(){
-
-        if(CONTROL_MODE === "local"){
-
-            fetch(endpoint + "/reset-all", {
-                method: "POST"
-            });
-
-        } else {
-
-            fetch(FIREBASE_COMMAND_URL, {
-                method: "PUT",
-                body: JSON.stringify("RESET_ALL|" + Date.now())
-            });
-
-        }
-
-        console.log("RESET LOOP");
-
-    }, 100);
-
 }
-
-function berhentiResetLoop(){
-
-    if(resetTimer){
-        clearInterval(resetTimer);
-        resetTimer = null;
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function(){
-
-    document.querySelectorAll(".bottombar a").forEach(function(link){
-
-        let tujuan = "";
-
-        link.addEventListener("mousedown", function(e){
-
-            e.preventDefault();
-
-            tujuan = link.href;
-
-            mulaiResetLoop();
-        });
-
-        link.addEventListener("mouseup", function(){
-
-            berhentiResetLoop();
-
-            if(tujuan){
-                window.location.href = tujuan;
-            }
-        });
-
-        link.addEventListener("mouseleave", function(){
-            berhentiResetLoop();
-        });
-
-        link.addEventListener("touchstart", function(e){
-
-            e.preventDefault();
-
-            tujuan = link.href;
-
-            mulaiResetLoop();
-        });
-
-        link.addEventListener("touchend", function(){
-
-            berhentiResetLoop();
-
-            if(tujuan){
-                window.location.href = tujuan;
-            }
-        });
-    });
-});
-
-document.querySelectorAll(".nav-reset").forEach(link => {
-
-    link.addEventListener("click", async function(e) {
-        e.preventDefault();
-
-        const targetPage = this.getAttribute("href");
-
-        try {
-            await fetch(endpoint + "/reset-all", {
-                method: "POST",
-                cache: "no-store"
-            });
-
-            console.log("RESET BERHASIL");
-
-        } catch (err) {
-            console.log("RESET GAGAL", err);
-        }
-
-        setTimeout(() => {
-            window.location.href = targetPage;
-        }, 500);
-    });
-
-});
