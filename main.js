@@ -1,6 +1,13 @@
 const endpoint = "http://192.168.1.19";
 const FIREBASE_STATUS_URL =
 "https://smart-cars-a9536-default-rtdb.asia-southeast1.firebasedatabase.app/smartcar/status.json";
+const CONTROL_MODE =
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "localhost"
+    ? "local"
+    : "firebase";
+const FIREBASE_COMMAND_URL =
+"https://smart-cars-a9536-default-rtdb.asia-southeast1.firebasedatabase.app/smartcar/command.json";
 
 function setLampRight() {
     fetch(endpoint + "/lampright", {
@@ -1099,14 +1106,6 @@ document.addEventListener("DOMContentLoaded", function(){
    MODE LOCAL / FIREBASE
 ========================= */
 
-const CONTROL_MODE =
-    window.location.hostname === "127.0.0.1" ||
-    window.location.hostname === "localhost"
-    ? "local"
-    : "firebase";
-
-const FIREBASE_COMMAND_URL =
-"https://smart-cars-a9536-default-rtdb.asia-southeast1.firebasedatabase.app/smartcar/command.json";
 
 function kirimCommand(pathLocal, commandFirebase){
 
